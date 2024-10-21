@@ -70,3 +70,13 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.textOutline {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+}
+
+.neonBlueText {
+  color: blue;
+  text-shadow: 0 0 20px blue;
+}
