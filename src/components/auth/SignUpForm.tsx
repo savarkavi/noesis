@@ -13,8 +13,14 @@ import {
 } from "../ui/form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { signUp } from "@/app/(auth)/actions";
+import { useState, useTransition } from "react";
+import { Loader2 } from "lucide-react";
 
 const SignUpForm = () => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, setTransition] = useTransition();
+
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -24,7 +30,13 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = async (values: SignUpValues) => {};
+  const onSubmit = async (values: SignUpValues) => {
+    setError(undefined);
+    setTransition(async () => {
+      const { error } = await signUp(values);
+      if (error) setError(error);
+    });
+  };
 
   return (
     <Form {...form}>
@@ -32,6 +44,7 @@ const SignUpForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="mx-auto flex w-full max-w-[300px] flex-col gap-6"
       >
+        {error && <p className="text-center text-destructive">{error}</p>}
         <FormField
           control={form.control}
           name="email"
@@ -74,6 +87,7 @@ const SignUpForm = () => {
               <FormLabel className="text-blue-600">Password</FormLabel>
               <FormControl>
                 <Input
+                  type="password"
                   placeholder="password"
                   {...field}
                   className="text-gray-400"
@@ -83,7 +97,9 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? <Loader2 className="size-5 animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );
