@@ -1,8 +1,14 @@
 import BorderContainer from "@/components/BorderContainer";
 import LoginForm from "@/components/auth/LoginForm";
+import { getCurrentSession } from "@/lib/session";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const { user } = await getCurrentSession();
+
+  if (user) redirect("/home");
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-black px-2 py-8">
       <BorderContainer>
