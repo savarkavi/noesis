@@ -7,6 +7,28 @@ import prisma from "./prisma";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
+export interface Session {
+  id: string;
+  userId: string;
+  expiresAt: Date;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  fullname: string | null;
+  email: string | null;
+  passwordHash: string | null;
+  googleId: string | null;
+  bio: string | null;
+  avatarUrl: string | null;
+  createdAt: Date;
+}
+
+export type SessionValidationResult =
+  | { session: Session; user: User }
+  | { session: null; user: null };
+
 export async function setSessionTokenCookie(token: string, expiresAt: Date) {
   (await cookies()).set("session", token, {
     httpOnly: true,
@@ -86,11 +108,13 @@ export async function invalidateSession(sessionId: string) {
   await prisma.session.delete({ where: { id: sessionId } });
 }
 
-export const getCurrentSession = cache(async () => {
-  const token = (await cookies()).get("session")?.value ?? null;
-  if (token === null) {
-    return { session: null, user: null };
-  }
-  const result = await validateSessionToken(token);
-  return result;
-});
+export const getCurrentSession = cache(
+  async (): Promise<SessionValidationResult> => {
+    const token = (await cookies()).get("session")?.value ?? null;
+    if (token === null) {
+      return { session: null, user: null };
+    }
+    const result = await validateSessionToken(token);
+    return result;
+  },
+);
