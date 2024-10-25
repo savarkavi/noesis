@@ -19,6 +19,7 @@ model User {
   bio          String?
   avatarUrl    String?
   sessions     Session[]
+  posts        Post[]
 
   createdAt DateTime @default(now())
 
@@ -32,4 +33,16 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model Post {
+  id       String @id @default(uuid())
+  userId   String
+  caption  String
+  imageUrl String
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("posts")
 }
