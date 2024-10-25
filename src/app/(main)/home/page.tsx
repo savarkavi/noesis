@@ -1,7 +1,10 @@
+import PostEditor from "@/components/post/editor/PostEditor";
 import React from "react";
 
-const FeedsPage = () => {
-  return <div className="h-[180vh]">FeedsPage</div>;
-};
-
-export default FeedsPage;
+export default function FeedsPage() {
+  return (
+    <div className="h-[180vh]">
+      <PostEditor />
+    </div>
+  );
+}

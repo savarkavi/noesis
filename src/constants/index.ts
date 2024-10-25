@@ -64,3 +64,18 @@ export const bottomMenuItems = [
     icon: MessageCircle,
   },
 ];
+
+export const typeOfPosts = [
+  {
+    value: "media",
+    label: "Media",
+  },
+  {
+    value: "commentry",
+    label: "Commentry",
+  },
+  {
+    value: "external-link",
+    label: "External Link",
+  },
+];
