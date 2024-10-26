@@ -36,11 +36,11 @@ model Session {
 }
 
 model Post {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   userId   String
   caption  String
-  imageUrl String
-  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imageUrl String?
+  User     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 

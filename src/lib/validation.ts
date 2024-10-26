@@ -21,7 +21,6 @@ export const loginSchema = z.object({
 
 export const postSchema = z.object({
   caption: requiredString,
-  imageUrl: requiredString,
 });
 
 export type SignUpValues = z.infer<typeof signUpSchema>;
