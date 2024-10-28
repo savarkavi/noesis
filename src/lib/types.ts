@@ -4,6 +4,7 @@ export const postWithUser = {
   user: {
     select: {
       username: true,
+      fullname: true,
       avatarUrl: true,
     },
   },
