@@ -19,7 +19,7 @@ export default async function MainLayout({
       <div className="min-h-screen w-full bg-[#161e27]">
         <div className="mx-auto flex h-full w-full max-w-[1240px] justify-between">
           <MenuBar />
-          <div className="flex w-full max-w-[640px] flex-col border-blue-400 sm:border-x">
+          <div className="flex w-full max-w-[640px] flex-col border-gray-700 sm:border-x">
             <TopBar />
             {children}
             <BottomMenu />
