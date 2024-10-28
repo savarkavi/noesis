@@ -36,7 +36,7 @@ const PostCommentry = ({ value }: { value: string }) => {
     <div>
       <EditorContent
         editor={editor}
-        className="border-b border-gray-600 pb-4 text-white"
+        className="border-b border-gray-400 pb-4 text-white"
       />
       <Button
         onClick={onSubmit}

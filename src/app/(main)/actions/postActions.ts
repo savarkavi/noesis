@@ -23,3 +23,24 @@ export const createPost = async (data: string) => {
     return { error: "Something went wrong. Try again later." };
   }
 };
+
+export const getPosts = async () => {
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        user: {
+          select: {
+            username: true,
+            avatarUrl: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return { posts };
+  } catch (error) {
+    console.error(error);
+    return { error: "Something went wrong. Try again later." };
+  }
+};

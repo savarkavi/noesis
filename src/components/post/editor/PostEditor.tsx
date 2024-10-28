@@ -12,7 +12,7 @@ const PostEditor = () => {
   const [value, setValue] = useState("");
 
   return (
-    <div className="flex flex-col gap-12 border-b border-blue-400 p-6">
+    <div className="flex flex-col gap-12 border-b border-gray-700 p-6">
       <div className="flex items-center justify-between">
         <div className="relative h-14 w-14 rounded-full">
           <Image
