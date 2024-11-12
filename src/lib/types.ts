@@ -10,4 +10,12 @@ export const postWithUser = {
   },
 } satisfies Prisma.PostInclude;
 
+export const userSelect = {
+  id: true,
+  username: true,
+  fullname: true,
+  avatarUrl: true,
+} satisfies Prisma.UserSelect;
+
 export type PostData = Prisma.PostGetPayload<{ include: typeof postWithUser }>;
+export type UserData = Prisma.UserGetPayload<{ select: typeof userSelect }>;

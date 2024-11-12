@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
+import { postWithUser } from "@/lib/types";
 import { postSchema } from "@/lib/validation";
 
 export const createPost = async (data: string) => {
@@ -27,14 +28,7 @@ export const createPost = async (data: string) => {
 export const getPosts = async () => {
   try {
     const posts = await prisma.post.findMany({
-      include: {
-        user: {
-          select: {
-            username: true,
-            avatarUrl: true,
-          },
-        },
-      },
+      include: postWithUser,
       orderBy: { createdAt: "desc" },
     });
 

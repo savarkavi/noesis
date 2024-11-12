@@ -20,6 +20,7 @@ const PostCommentry = ({ value }: { value: string }) => {
         placeholder: "Write your thoughts about this post",
       }),
     ],
+    immediatelyRender: false,
   });
 
   const input =
