@@ -4,19 +4,12 @@ import Post from "./Post";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { PostData } from "@/lib/types";
+import { kyInstance } from "@/lib/ky";
 
 const Feed = () => {
   const query = useQuery({
     queryKey: ["post", "feed"],
-    queryFn: async () => {
-      const res = await fetch("/api/posts/feed");
-
-      if (!res.ok) {
-        throw Error("Failed to fetch posts");
-      }
-
-      return res.json();
-    },
+    queryFn: kyInstance.get("posts/feed").json<PostData[]>,
   });
 
   if (query.status === "pending") {

@@ -30,6 +30,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^11.11.9",
+    "ky": "^1.7.2",
     "lucide-react": "^0.453.0",
     "next": "15.0.0-rc.1",
     "prisma": "^5.21.1",
