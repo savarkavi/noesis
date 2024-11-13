@@ -1,12 +1,12 @@
 import PostEditor from "@/components/post/editor/PostEditor";
-import Feeds from "@/components/post/Feeds";
+import Feed from "@/components/post/Feed";
 import React from "react";
 
-export default function FeedsPage() {
+export default function FeedPage() {
   return (
     <div className="h-[180vh]">
       <PostEditor />
-      <Feeds />
+      <Feed />
     </div>
   );
 }

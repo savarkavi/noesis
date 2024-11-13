@@ -2,7 +2,6 @@
 
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
-import { postWithUser } from "@/lib/types";
 import { postSchema } from "@/lib/validation";
 
 export const createPost = async (data: string) => {
@@ -19,20 +18,6 @@ export const createPost = async (data: string) => {
         userId: user.id,
       },
     });
-  } catch (error) {
-    console.error(error);
-    return { error: "Something went wrong. Try again later." };
-  }
-};
-
-export const getPosts = async () => {
-  try {
-    const posts = await prisma.post.findMany({
-      include: postWithUser,
-      orderBy: { createdAt: "desc" },
-    });
-
-    return { posts };
   } catch (error) {
     console.error(error);
     return { error: "Something went wrong. Try again later." };

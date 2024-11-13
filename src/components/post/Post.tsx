@@ -22,9 +22,9 @@ const Post = ({ post }: { post: PostData }) => {
             </h2>
             <h2 className="text-sm font-semibold text-gray-500">{`@${post.user.username}`}</h2>
           </div>
-          <p className="text-sm text-gray-500">
+          {/* <p className="text-sm text-gray-500">
             {formatRelativeDate(post.createdAt)}
-          </p>
+          </p> */}
         </div>
       </div>
       <div>
