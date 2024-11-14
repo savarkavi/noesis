@@ -4,7 +4,7 @@ import React from "react";
 
 export default function FeedPage() {
   return (
-    <div className="h-[180vh]">
+    <div className="min-h-screen">
       <PostEditor />
       <Feed />
     </div>

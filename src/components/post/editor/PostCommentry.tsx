@@ -8,6 +8,7 @@ import { createPost } from "@/app/(main)/actions/postActions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const PostCommentry = ({ value }: { value: string }) => {
   const editor = useEditor({
@@ -29,8 +30,11 @@ const PostCommentry = ({ value }: { value: string }) => {
     }) || "";
 
   const onSubmit = async () => {
+    toast.loading("creating post...");
     await createPost(input);
     editor?.commands.clearContent();
+    toast.success("Post created");
+    toast.dismiss();
   };
 
   return (
