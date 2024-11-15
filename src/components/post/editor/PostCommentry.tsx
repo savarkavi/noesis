@@ -3,11 +3,11 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import "./style.css";
-import { createPost } from "@/app/(main)/actions/postActions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusCircle } from "lucide-react";
+import { useCreatePostMutation } from "@/lib/mutations/postMutations";
+import "./style.css";
 import { toast } from "sonner";
 
 const PostCommentry = ({ value }: { value: string }) => {
@@ -24,17 +24,21 @@ const PostCommentry = ({ value }: { value: string }) => {
     immediatelyRender: false,
   });
 
+  const mutation = useCreatePostMutation();
   const input =
     editor?.getText({
       blockSeparator: "\n",
     }) || "";
 
   const onSubmit = async () => {
-    toast.loading("creating post...");
-    await createPost(input);
-    editor?.commands.clearContent();
-    toast.success("Post created");
-    toast.dismiss();
+    toast.promise(mutation.mutateAsync(input), {
+      loading: "Creating post...",
+      success: () => {
+        editor?.commands.clearContent();
+        return "Post created";
+      },
+      error: "Failed to create the post. Try again later.",
+    });
   };
 
   return (

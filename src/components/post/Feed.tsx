@@ -14,7 +14,8 @@ const Feed = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status,
+    isPending,
+    isError,
   } = useInfiniteQuery({
     queryKey: ["post", "feed"],
     queryFn: ({ pageParam }) =>
@@ -39,11 +40,11 @@ const Feed = () => {
     },
   });
 
-  if (status === "pending") {
+  if (isPending) {
     return <Loader2 className="mx-auto mt-8 animate-spin text-blue-500" />;
   }
 
-  if (status === "error") {
+  if (isError) {
     return (
       <p className="mt-8 text-center text-white">
         Something went wrong. Please try again later.
