@@ -2,6 +2,7 @@ import { PostData } from "@/lib/types";
 import profilePlaceholder from "../../assets/profile-placeholder.png";
 import Image from "next/image";
 import { formatRelativeDate } from "@/lib/utils";
+import PostOptionsButton from "./PostOptionsButton";
 
 const Post = ({ post }: { post: PostData }) => {
   return (
@@ -22,9 +23,12 @@ const Post = ({ post }: { post: PostData }) => {
             </h2>
             <h2 className="text-sm font-semibold text-gray-500">{`@${post.user.username}`}</h2>
           </div>
-          <p className="text-sm text-gray-500">
-            {formatRelativeDate(post.createdAt)}
-          </p>
+          <div className="flex items-start gap-4">
+            <p className="text-sm text-gray-500">
+              {formatRelativeDate(post.createdAt)}
+            </p>
+            <PostOptionsButton post={post} />
+          </div>
         </div>
       </div>
       <div>
