@@ -24,3 +24,8 @@ export interface PostPage {
   posts: PostData[];
   nextCursor: string | null;
 }
+
+export interface UserFollowersInfo {
+  totalFollowers: number;
+  isFollowed: boolean;
+}
