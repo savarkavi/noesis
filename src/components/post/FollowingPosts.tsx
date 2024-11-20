@@ -1,13 +1,13 @@
 "use client";
 
-import Post from "./Post";
+import { kyInstance } from "@/lib/ky";
+import { PostData, PostPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { PostData, PostPage } from "@/lib/types";
-import { kyInstance } from "@/lib/ky";
 import { useInView } from "react-intersection-observer";
+import Post from "./Post";
 
-const Feed = () => {
+const FollowingPosts = () => {
   const {
     data,
     fetchNextPage,
@@ -18,11 +18,11 @@ const Feed = () => {
     isError,
     status,
   } = useInfiniteQuery({
-    queryKey: ["post", "feed"],
+    queryKey: ["post", "following"],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
-          "posts/feed",
+          "posts/following",
           pageParam ? { searchParams: { cursor: pageParam } } : {},
         )
         .json<PostPage>(),
@@ -48,7 +48,7 @@ const Feed = () => {
   if (status === "success" && !posts.length) {
     return (
       <p className="mt-16 text-center text-gray-300">
-        No posts found. Be the first one to post.
+        No posts found. Start following people.
       </p>
     );
   }
@@ -74,4 +74,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default FollowingPosts;
