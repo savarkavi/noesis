@@ -15,7 +15,14 @@ export const userSelect = {
   username: true,
   fullname: true,
   avatarUrl: true,
+  bio: true,
+  createdAt: true,
   followers: true,
+  _count: {
+    select: {
+      posts: true,
+    },
+  },
 } satisfies Prisma.UserSelect;
 
 export type PostData = Prisma.PostGetPayload<{ include: typeof postWithUser }>;
