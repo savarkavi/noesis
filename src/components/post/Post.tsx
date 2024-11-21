@@ -3,6 +3,7 @@ import profilePlaceholder from "../../assets/profile-placeholder.png";
 import Image from "next/image";
 import { formatRelativeDate } from "@/lib/utils";
 import PostOptionsButton from "./PostOptionsButton";
+import Link from "next/link";
 
 interface PostProps {
   post: PostData;
@@ -25,9 +26,12 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <h2 className="font-semibold">
+            <Link
+              href={`/users/${post.user.username}`}
+              className="font-semibold"
+            >
               {post.user.fullname || post.user.username}
-            </h2>
+            </Link>
             <h2 className="text-sm font-semibold text-gray-500">{`@${post.user.username}`}</h2>
           </div>
           <div className="flex items-start gap-4">

@@ -3,6 +3,7 @@ import { getCurrentSession } from "@/lib/session";
 import Image from "next/image";
 import profilePlaceholder from "../../assets/profile-placeholder.png";
 import FollowButton from "../FollowButton";
+import Link from "next/link";
 
 const WhoToFollow = async () => {
   const { user } = await getCurrentSession();
@@ -36,9 +37,12 @@ const WhoToFollow = async () => {
                 />
               </div>
               <div className="flex flex-col">
-                <h2 className="font-semibold">
+                <Link
+                  href={`/users/${data.username}`}
+                  className="font-semibold"
+                >
                   {data.fullname || data.username}
-                </h2>
+                </Link>
                 <h2 className="text-sm font-semibold text-gray-500">{`@${data.username}`}</h2>
               </div>
             </div>
