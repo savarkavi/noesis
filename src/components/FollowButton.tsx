@@ -50,7 +50,7 @@ const FollowButton = ({
   return (
     <button
       className={cn(
-        "cursor-pointer rounded-2xl px-4 py-2 text-sm",
+        "w-24 cursor-pointer rounded-2xl px-4 py-2 text-sm",
         data?.isFollowed ? "bg-white text-black" : "bg-blue-500 text-white",
       )}
       onClick={() => mutate()}
