@@ -1,3 +1,4 @@
+import UserPosts from "@/components/user-page/UserPosts";
 import UserProfile from "@/components/user-page/UserProfile";
 import prisma from "@/lib/prisma";
 import { userSelect } from "@/lib/types";
@@ -37,6 +38,7 @@ const UserPage = async ({ params }: UserPageProps) => {
   return (
     <div className="min-h-screen">
       <UserProfile userData={user} />
+      <UserPosts userId={user.id} />
     </div>
   );
 };

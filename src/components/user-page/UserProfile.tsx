@@ -5,6 +5,7 @@ import { formatDate } from "date-fns";
 import FollowersCount from "./FollowersCount";
 import { getCurrentSession } from "@/lib/session";
 import FollowButton from "../FollowButton";
+import { Button } from "../ui/button";
 
 const UserProfile = async ({ userData }: { userData: UserData }) => {
   const { user } = await getCurrentSession();
@@ -36,10 +37,16 @@ const UserProfile = async ({ userData }: { userData: UserData }) => {
             <h2 className="text-3xl font-semibold capitalize">
               {userData.fullname || userData.username}
             </h2>
-            <FollowButton
-              userId={userData.id}
-              initialState={userFollowersInfo}
-            />
+            {userData.username !== user.username ? (
+              <FollowButton
+                userId={userData.id}
+                initialState={userFollowersInfo}
+              />
+            ) : (
+              <Button className="rounded-2xl bg-blue-500 text-white">
+                Edit profile
+              </Button>
+            )}
           </div>
           <span className="text-gray-500">{`@${userData.username}`}</span>
         </div>
