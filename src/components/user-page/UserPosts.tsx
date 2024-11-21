@@ -7,7 +7,13 @@ import { Loader2 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import Post from "../post/Post";
 
-const UserPosts = ({ userId }: { userId: string }) => {
+const UserPosts = ({
+  userId,
+  loggedInUser,
+}: {
+  userId: string;
+  loggedInUser: string;
+}) => {
   const {
     data,
     fetchNextPage,
@@ -65,7 +71,7 @@ const UserPosts = ({ userId }: { userId: string }) => {
   return (
     <div>
       {posts.map((post: PostData) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} userId={loggedInUser} />
       ))}
       <div ref={ref}></div>
       {isFetchingNextPage && (

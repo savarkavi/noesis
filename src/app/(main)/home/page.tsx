@@ -3,8 +3,13 @@ import Feed from "@/components/post/Feed";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FollowingPosts from "@/components/post/FollowingPosts";
+import { getCurrentSession } from "@/lib/session";
 
-export default function FeedPage() {
+export default async function FeedPage() {
+  const { user } = await getCurrentSession();
+
+  if (!user) return;
+
   return (
     <div className="min-h-screen">
       <PostEditor />
@@ -18,7 +23,7 @@ export default function FeedPage() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="feed">
-          <Feed />
+          <Feed userId={user.id} />
         </TabsContent>
         <TabsContent value="following">
           <FollowingPosts />

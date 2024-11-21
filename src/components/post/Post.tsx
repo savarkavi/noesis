@@ -4,7 +4,14 @@ import Image from "next/image";
 import { formatRelativeDate } from "@/lib/utils";
 import PostOptionsButton from "./PostOptionsButton";
 
-const Post = ({ post }: { post: PostData }) => {
+interface PostProps {
+  post: PostData;
+  userId: string;
+}
+
+const Post = ({ post, userId }: PostProps) => {
+  console.log({ userId, postId: post.userId });
+
   return (
     <div className="flex flex-col gap-6 border-b border-gray-700 p-6">
       <div className="flex gap-2">
@@ -27,7 +34,7 @@ const Post = ({ post }: { post: PostData }) => {
             <p className="text-sm text-gray-500">
               {formatRelativeDate(post.createdAt)}
             </p>
-            <PostOptionsButton post={post} />
+            {userId === post.userId && <PostOptionsButton post={post} />}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import UserPosts from "@/components/user-page/UserPosts";
 import UserProfile from "@/components/user-page/UserProfile";
 import prisma from "@/lib/prisma";
+import { getCurrentSession } from "@/lib/session";
 import { userSelect } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { cache } from "react";
@@ -35,10 +36,14 @@ const UserPage = async ({ params }: UserPageProps) => {
   const { username } = await params;
   const user = await getUser(username);
 
+  const { user: loggedInUser } = await getCurrentSession();
+
+  if (!loggedInUser) return;
+
   return (
     <div className="min-h-screen">
       <UserProfile userData={user} />
-      <UserPosts userId={user.id} />
+      <UserPosts userId={user.id} loggedInUser={loggedInUser.id} />
     </div>
   );
 };

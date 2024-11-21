@@ -7,7 +7,7 @@ import { PostData, PostPage } from "@/lib/types";
 import { kyInstance } from "@/lib/ky";
 import { useInView } from "react-intersection-observer";
 
-const Feed = () => {
+const Feed = ({ userId }: { userId: string }) => {
   const {
     data,
     fetchNextPage,
@@ -64,7 +64,7 @@ const Feed = () => {
   return (
     <div>
       {posts.map((post: PostData) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} userId={userId} />
       ))}
       <div ref={ref}></div>
       {isFetchingNextPage && (
