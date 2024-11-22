@@ -69,7 +69,7 @@ const UserPosts = ({
   }
 
   return (
-    <div>
+    <div className="mt-8">
       {posts.map((post: PostData) => (
         <Post key={post.id} post={post} userId={loggedInUser} />
       ))}
