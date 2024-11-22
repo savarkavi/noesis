@@ -6,6 +6,7 @@ import FollowersCount from "./FollowersCount";
 import { getCurrentSession } from "@/lib/session";
 import FollowButton from "../FollowButton";
 import { Button } from "../ui/button";
+import Linkify from "../Linkify";
 
 const UserProfile = async ({ userData }: { userData: UserData }) => {
   const { user } = await getCurrentSession();
@@ -48,15 +49,24 @@ const UserProfile = async ({ userData }: { userData: UserData }) => {
               </Button>
             )}
           </div>
-          <span className="text-gray-500">{`@${userData.username}`}</span>
+          <div className="flex items-center gap-3 text-gray-500">
+            <span className="">{`@${userData.username}`}</span>
+            <p>{`Joined ${formatDate(userData.createdAt, "MMM d, yyyy")}`}</p>
+          </div>
         </div>
-        <p>{`Joined on ${formatDate(userData.createdAt, "MMM d, yyyy")}`}</p>
-        <div className="flex items-center gap-6">
-          <p>{`Posts: ${userData._count.posts}`}</p>
-          <FollowersCount
-            userId={userData.id}
-            initialState={userFollowersInfo}
-          />
+        <div className="flex flex-col gap-6">
+          {userData.bio && (
+            <Linkify>
+              <p>{userData.bio}</p>
+            </Linkify>
+          )}
+          <div className="flex items-center gap-6">
+            <p>{`Posts: ${userData._count.posts}`}</p>
+            <FollowersCount
+              userId={userData.id}
+              initialState={userFollowersInfo}
+            />
+          </div>
         </div>
       </div>
     </div>
