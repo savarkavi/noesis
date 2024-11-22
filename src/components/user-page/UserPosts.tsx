@@ -24,7 +24,7 @@ const UserPosts = ({
     isError,
     status,
   } = useInfiniteQuery({
-    queryKey: ["post", "user-post"],
+    queryKey: ["post", "user-post", userId],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
