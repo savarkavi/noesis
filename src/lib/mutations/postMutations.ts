@@ -1,19 +1,32 @@
 import { createPost, deletePost } from "@/app/(main)/actions/postActions";
 import {
   InfiniteData,
+  QueryFilters,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { PostPage } from "../types";
+import { useSession } from "@/contexts/SessionProvider";
 
 export function useCreatePostMutation() {
+  const { user } = useSession();
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: createPost,
     onSuccess: async (newPost) => {
-      const queryFilter = { queryKey: ["post", "feed"] };
+      const queryFilter = {
+        queryKey: ["post"],
+        predicate(query) {
+          return (
+            query.queryKey.includes("feed") ||
+            (query.queryKey.includes("user-post") &&
+              query.queryKey.includes(user.id))
+          );
+        },
+      } satisfies QueryFilters;
 
       await queryClient.cancelQueries(queryFilter);
 
@@ -36,7 +49,15 @@ export function useCreatePostMutation() {
           }
         },
       );
+
+      queryClient.invalidateQueries({
+        queryKey: queryFilter.queryKey,
+        predicate(query) {
+          return queryFilter.predicate(query) && !query.state.data;
+        },
+      });
     },
+
     onError: (error) => {
       console.log(error);
       toast.error("Failed to create the post. Try again later.");
