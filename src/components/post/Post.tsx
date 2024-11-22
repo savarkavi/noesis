@@ -4,6 +4,7 @@ import Image from "next/image";
 import { formatRelativeDate } from "@/lib/utils";
 import PostOptionsButton from "./PostOptionsButton";
 import Link from "next/link";
+import Linkify from "../Linkify";
 
 interface PostProps {
   post: PostData;
@@ -43,7 +44,9 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
       </div>
       <div>
-        <p>{post.caption}</p>
+        <Linkify>
+          <p>{post.caption}</p>
+        </Linkify>
       </div>
     </div>
   );
