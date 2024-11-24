@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
       dynamic: 30,
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        pathname: `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_TOKEN}`,
+      },
+    ],
+  },
   serverExternalPackages: ["@node-rs/argon2"],
   webpack: (config, { isServer }) => {
     if (!isServer) {
