@@ -1,7 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { getCurrentSession } from "@/lib/session";
 import { userSelect } from "@/lib/types";
+import { updateUserProfileSchema, UserProfileValues } from "@/lib/validation";
 import { User } from "@prisma/client";
 
 export const getWhoToFollowUsers = async (currentUser: User) => {
@@ -21,4 +23,22 @@ export const getWhoToFollowUsers = async (currentUser: User) => {
     console.error(error);
     return { error: "Something went wrong. Try again later." };
   }
+};
+
+export const updateUserProfile = async (data: UserProfileValues) => {
+  const validatedData = updateUserProfileSchema.parse(data);
+
+  const { user } = await getCurrentSession();
+
+  if (!user) throw new Error("Unauthorized");
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: validatedData,
+    select: userSelect,
+  });
+
+  return updatedUser;
 };
