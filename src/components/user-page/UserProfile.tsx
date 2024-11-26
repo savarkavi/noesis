@@ -24,15 +24,15 @@ const UserProfile = async ({ userData }: { userData: UserData }) => {
 
   return (
     <div className="p-6">
-      <div className="relative mx-auto h-[200px] w-[200px] rounded-full">
+      <div className="relative mx-auto h-[150px] w-[150px] rounded-full">
         <Image
           src={userData.avatarUrl || profilePlaceholder}
           alt="profile image"
           fill
-          className="object-cover"
+          className="rounded-full object-cover"
         />
       </div>
-      <div className="mt-4 flex flex-col gap-4">
+      <div className="mt-8 flex flex-col gap-4">
         <div>
           <div className="flex justify-between">
             <h2 className="text-3xl font-semibold capitalize">
