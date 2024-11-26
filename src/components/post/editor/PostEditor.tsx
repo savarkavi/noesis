@@ -19,7 +19,7 @@ const PostEditor = () => {
             src={user.avatarUrl ? user.avatarUrl : profilePlaceholder}
             alt="profile picture"
             fill
-            className="object-cover"
+            className="rounded-full object-cover"
           />
         </div>
         <PostTypeDropdown value={value} setValue={setValue} />

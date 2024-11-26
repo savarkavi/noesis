@@ -20,7 +20,7 @@ const Post = ({ post, userId }: PostProps) => {
             src={post.user.avatarUrl || profilePlaceholder}
             alt="profile picture"
             fill
-            className="object-cover"
+            className="rounded-full object-cover"
           />
         </div>
         <div className="flex w-full justify-between">
