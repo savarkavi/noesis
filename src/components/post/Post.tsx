@@ -12,8 +12,6 @@ interface PostProps {
 }
 
 const Post = ({ post, userId }: PostProps) => {
-  console.log({ userId, postId: post.userId });
-
   return (
     <div className="flex flex-col gap-6 border-b border-gray-700 p-6">
       <div className="flex gap-2">
