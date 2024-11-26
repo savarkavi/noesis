@@ -5,8 +5,8 @@ import { formatDate } from "date-fns";
 import FollowersCount from "./FollowersCount";
 import { getCurrentSession } from "@/lib/session";
 import FollowButton from "../FollowButton";
-import { Button } from "../ui/button";
 import Linkify from "../Linkify";
+import Link from "next/link";
 
 const UserProfile = async ({ userData }: { userData: UserData }) => {
   const { user } = await getCurrentSession();
@@ -44,9 +44,12 @@ const UserProfile = async ({ userData }: { userData: UserData }) => {
                 initialState={userFollowersInfo}
               />
             ) : (
-              <Button className="rounded-2xl bg-blue-500 text-white">
+              <Link
+                href={`/users/${userData.username}/edit-profile`}
+                className="flex items-center justify-center rounded-2xl bg-blue-500 px-4 py-2 text-sm text-white"
+              >
                 Edit profile
-              </Button>
+              </Link>
             )}
           </div>
           <div className="flex items-center gap-3 text-gray-500">
