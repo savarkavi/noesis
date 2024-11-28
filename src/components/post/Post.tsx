@@ -5,6 +5,7 @@ import { formatRelativeDate } from "@/lib/utils";
 import PostOptionsButton from "./PostOptionsButton";
 import Link from "next/link";
 import Linkify from "../Linkify";
+import PostMedia from "./PostMedia";
 
 interface PostProps {
   post: PostData;
@@ -45,6 +46,7 @@ const Post = ({ post, userId }: PostProps) => {
         <Linkify>
           <p>{post.caption}</p>
         </Linkify>
+        {post.attachments.length > 0 && <PostMedia post={post} />}
       </div>
     </div>
   );
