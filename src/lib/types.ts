@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export const postWithUser = {
+export const postDataInclude = {
   user: {
     select: {
       username: true,
@@ -8,6 +8,7 @@ export const postWithUser = {
       avatarUrl: true,
     },
   },
+  attachments: true,
 } satisfies Prisma.PostInclude;
 
 export const userSelect = {
@@ -25,7 +26,9 @@ export const userSelect = {
   },
 } satisfies Prisma.UserSelect;
 
-export type PostData = Prisma.PostGetPayload<{ include: typeof postWithUser }>;
+export type PostData = Prisma.PostGetPayload<{
+  include: typeof postDataInclude;
+}>;
 export type UserData = Prisma.UserGetPayload<{ select: typeof userSelect }>;
 
 export interface PostPage {
