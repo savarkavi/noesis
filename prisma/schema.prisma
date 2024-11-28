@@ -38,11 +38,12 @@ model Session {
 }
 
 model Post {
-  id       String  @id @default(uuid())
-  userId   String
-  caption  String
-  imageUrl String?
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(uuid())
+  userId      String
+  caption     String
+  imageUrl    String?
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments Media[]
 
   createdAt DateTime @default(now())
 
@@ -57,4 +58,21 @@ model Follow {
 
   @@unique([followerId, followingId])
   @@map("follows")
+}
+
+model Media {
+  id     String    @id @default(uuid())
+  postId String?
+  post   Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  url    String
+  type   MediaType
+
+  createdAt DateTime @default(now())
+
+  @@map("media")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
