@@ -2,7 +2,6 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
 } from "../ui/dialog";
@@ -11,6 +10,7 @@ import { useDeletePostMutation } from "@/lib/mutations/postMutations";
 import { PostData } from "@/lib/types";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface DeletePostDialogProps {
   open: boolean;
@@ -25,9 +25,7 @@ const DeletePostDialog = ({ open, onClose, post }: DeletePostDialogProps) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogDescription>
-            Are you sure you want to delete this post?
-          </DialogDescription>
+          <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
         </DialogHeader>
         <DialogFooter>
           <Button
