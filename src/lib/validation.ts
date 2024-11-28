@@ -23,6 +23,9 @@ export const loginSchema = z.object({
 
 export const postSchema = z.object({
   caption: requiredString,
+  attachments: z
+    .array(z.string())
+    .max(4, "You cannot upload more than 4 files."),
 });
 
 export const updateUserProfileSchema = z.object({
