@@ -2,22 +2,28 @@
 
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
-import { postWithUser } from "@/lib/types";
+import { postDataInclude } from "@/lib/types";
 import { postSchema } from "@/lib/validation";
 
-export const createPost = async (data: string) => {
+export const createPost = async (data: {
+  caption: string;
+  attachments: string[];
+}) => {
   const { user } = await getCurrentSession();
 
   if (!user) throw new Error("Unauthorized");
 
-  const { caption } = postSchema.parse({ caption: data });
+  const { caption, attachments } = postSchema.parse(data);
 
   const newPost = await prisma.post.create({
     data: {
       caption,
       userId: user.id,
+      attachments: {
+        connect: attachments.map((id) => ({ id })),
+      },
     },
-    include: postWithUser,
+    include: postDataInclude,
   });
 
   return newPost;
@@ -38,7 +44,7 @@ export const deletePost = async (id: string) => {
 
   const deletedPost = await prisma.post.delete({
     where: { id },
-    include: postWithUser,
+    include: postDataInclude,
   });
 
   return deletedPost;
