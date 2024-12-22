@@ -15,10 +15,15 @@ export default function useMediaUpload() {
     },
   });
 
+  function removeAttachment(fileName: string) {
+    setAttachments((prev) => prev.filter((f) => f.name !== fileName));
+  }
+
   return {
     attachments,
     setAttachments,
     startUpload,
     isUploading,
+    removeAttachment,
   };
 }
