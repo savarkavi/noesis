@@ -9,6 +9,7 @@ export const postDataInclude = {
     },
   },
   attachments: true,
+  likes: true,
 } satisfies Prisma.PostInclude;
 
 export const userSelect = {
@@ -39,4 +40,9 @@ export interface PostPage {
 export interface UserFollowersInfo {
   totalFollowers: number;
   isFollowed: boolean;
+}
+
+export interface PostLikesInfo {
+  totalLikes: number;
+  isLiked: boolean;
 }
