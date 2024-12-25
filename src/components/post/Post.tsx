@@ -6,6 +6,7 @@ import PostOptionsButton from "./PostOptionsButton";
 import Link from "next/link";
 import Linkify from "../Linkify";
 import PostMedia from "./PostMedia";
+import LikeButton from "../LikeButton";
 
 interface PostProps {
   post: PostData;
@@ -13,6 +14,8 @@ interface PostProps {
 }
 
 const Post = ({ post, userId }: PostProps) => {
+  const isLiked = post.likes.find((like) => like.userId === userId);
+
   return (
     <div className="flex flex-col gap-6 border-b border-gray-700 p-6">
       <div className="flex gap-2">
@@ -47,6 +50,12 @@ const Post = ({ post, userId }: PostProps) => {
           <p>{post.caption}</p>
         </Linkify>
         {post.attachments.length > 0 && <PostMedia post={post} />}
+      </div>
+      <div>
+        <LikeButton
+          postId={post.id}
+          initialState={{ totalLikes: post.likes.length, isLiked: !!isLiked }}
+        />
       </div>
     </div>
   );
