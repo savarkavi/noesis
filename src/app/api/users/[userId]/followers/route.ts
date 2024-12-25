@@ -52,8 +52,9 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: { params: { userId: string } },
 ) {
+  const { userId } = await params;
   try {
     const { user: loggedInUser } = await getCurrentSession();
 
@@ -68,27 +69,18 @@ export async function POST(
       );
     }
 
-    const existingFollow = await prisma.follow.findUnique({
+    await prisma.follow.upsert({
       where: {
         followerId_followingId: {
           followerId: loggedInUser.id,
           followingId: userId,
         },
       },
-    });
-
-    if (existingFollow) {
-      return Response.json(
-        { error: "You are already following this user." },
-        { status: 400 },
-      );
-    }
-
-    await prisma.follow.create({
-      data: {
+      create: {
         followerId: loggedInUser.id,
         followingId: userId,
       },
+      update: {},
     });
 
     return new Response();
@@ -100,8 +92,10 @@ export async function POST(
 
 export async function DELETE(
   req: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: { params: { userId: string } },
 ) {
+  const { userId } = await params;
+
   try {
     const { user: loggedInUser } = await getCurrentSession();
 
