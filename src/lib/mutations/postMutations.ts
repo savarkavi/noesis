@@ -31,7 +31,16 @@ export function useCreatePostMutation() {
       await queryClient.cancelQueries(queryFilter);
 
       queryClient.setQueriesData<InfiniteData<PostPage, string | null>>(
-        queryFilter,
+        {
+          queryKey: ["post"],
+          predicate(query) {
+            return (
+              query.queryKey.includes("feed") ||
+              (query.queryKey.includes("user-post") &&
+                query.queryKey.includes(user.id))
+            );
+          },
+        },
         (data) => {
           const firstPage = data?.pages[0];
 
