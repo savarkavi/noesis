@@ -57,7 +57,7 @@ const LikeButton = ({
   });
 
   return (
-    <div className="flex w-fit flex-col items-center gap-1">
+    <div className="flex w-fit items-center gap-2">
       <button onClick={() => mutate()}>
         <Heart
           className={cn(
@@ -67,7 +67,7 @@ const LikeButton = ({
         />
       </button>
       <span className="text-sm tabular-nums text-gray-400">
-        {data?.totalLikes}
+        {`${data?.totalLikes} ${data?.totalLikes === 1 ? "like" : "likes"}`}
       </span>
     </div>
   );
