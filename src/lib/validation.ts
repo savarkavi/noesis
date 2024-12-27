@@ -49,6 +49,11 @@ export const updateUserProfileSchema = z.object({
     .optional(),
 });
 
+export const commentSchema = z.object({
+  content: requiredString,
+});
+
 export type SignUpValues = z.infer<typeof signUpSchema>;
 export type LoginValues = z.infer<typeof loginSchema>;
 export type UserProfileValues = z.infer<typeof updateUserProfileSchema>;
+export type CommentValue = z.infer<typeof commentSchema>;
