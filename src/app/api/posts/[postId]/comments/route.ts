@@ -11,7 +11,7 @@ export async function GET(
   try {
     const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 
-    const pageSize = 10;
+    const pageSize = 5;
 
     const { user: loggedInUser } = await getCurrentSession();
 
@@ -20,7 +20,7 @@ export async function GET(
     }
 
     const comments = await prisma.comment.findMany({
-      where: { id: postId },
+      where: { postId: postId },
       include: commentDataInclude,
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
