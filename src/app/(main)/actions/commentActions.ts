@@ -31,3 +31,24 @@ export const createComment = async ({
 
   return newComment;
 };
+
+export const deleteComment = async (id: string) => {
+  const { user } = await getCurrentSession();
+
+  if (!user) throw new Error("Unauthorized");
+
+  const comment = await prisma.comment.findUnique({
+    where: { id },
+  });
+
+  if (!comment) throw new Error("Comment not found");
+
+  if (comment.userId !== user.id) throw new Error("Unauthorized");
+
+  const deletedComment = await prisma.comment.delete({
+    where: { id },
+    include: commentDataInclude,
+  });
+
+  return deletedComment;
+};
