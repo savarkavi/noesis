@@ -1,3 +1,5 @@
+"use client";
+
 import { PostData } from "@/lib/types";
 import profilePlaceholder from "../../assets/profile-placeholder.png";
 import Image from "next/image";
@@ -8,6 +10,9 @@ import Linkify from "../Linkify";
 import PostMedia from "./PostMedia";
 import LikeButton from "../LikeButton";
 import BookmarkButton from "../BookmarkButton";
+import CommentButton from "../CommentButton";
+import { useState } from "react";
+import Comments from "./Comments";
 
 interface PostProps {
   post: PostData;
@@ -15,10 +20,15 @@ interface PostProps {
 }
 
 const Post = ({ post, userId }: PostProps) => {
+  const [isCommentsClicked, setIsCommentsClicked] = useState(false);
+
   const isLiked = post.likes.find((like) => like.userId === userId);
   const isBookmarked = post.bookmarks.find(
     (bookmark) => bookmark.userId === userId,
   );
+
+  const handleCommentsToggle = () => setIsCommentsClicked((prev) => !prev);
+  const handleCommentsClose = () => setIsCommentsClicked(false);
 
   return (
     <div className="flex flex-col gap-6 border-b border-gray-700 p-6">
@@ -55,11 +65,15 @@ const Post = ({ post, userId }: PostProps) => {
         </Linkify>
         {post.attachments.length > 0 && <PostMedia post={post} />}
       </div>
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-10">
           <LikeButton
             postId={post.id}
             initialState={{ totalLikes: post.likes.length, isLiked: !!isLiked }}
+          />
+          <CommentButton
+            totalComments={post._count.comments}
+            onClicked={handleCommentsToggle}
           />
         </div>
         <BookmarkButton
@@ -67,6 +81,9 @@ const Post = ({ post, userId }: PostProps) => {
           initialState={{ isBookmarked: !!isBookmarked }}
         />
       </div>
+      {isCommentsClicked && (
+        <Comments postId={post.id} onClicked={handleCommentsClose} />
+      )}
     </div>
   );
 };
