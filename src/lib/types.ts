@@ -39,6 +39,21 @@ export const commentDataInclude = {
   },
 };
 
+export const notificationDataInclude = {
+  issuer: {
+    select: {
+      fullname: true,
+      username: true,
+      avatarUrl: true,
+    },
+  },
+  post: {
+    select: {
+      caption: true,
+    },
+  },
+} satisfies Prisma.NotificationInclude;
+
 export type PostData = Prisma.PostGetPayload<{
   include: typeof postDataInclude;
 }>;
@@ -49,6 +64,10 @@ export type CommentData = Prisma.CommentGetPayload<{
   include: typeof commentDataInclude;
 }>;
 
+export type NotificationData = Prisma.NotificationGetPayload<{
+  include: typeof notificationDataInclude;
+}>;
+
 export interface PostPage {
   posts: PostData[];
   nextCursor: string | null;
@@ -56,6 +75,11 @@ export interface PostPage {
 
 export interface CommentPage {
   comments: CommentData[];
+  nextCursor: string | null;
+}
+
+export interface NotificationPage {
+  notifications: NotificationData[];
   nextCursor: string | null;
 }
 
