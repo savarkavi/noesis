@@ -33,7 +33,7 @@ const WhoToFollow = async () => {
                   src={data.avatarUrl || profilePlaceholder}
                   alt="profile picture"
                   fill
-                  className="object-cover"
+                  className="rounded-full object-cover"
                 />
               </div>
               <div className="flex flex-col">
