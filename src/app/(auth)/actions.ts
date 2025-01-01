@@ -16,7 +16,6 @@ import {
   SignUpValues,
 } from "@/lib/validation";
 import { hash, verify } from "@node-rs/argon2";
-import { isRedirectError } from "next/dist/client/components/redirect";
 import { redirect } from "next/navigation";
 
 export const signUp = async (credentials: SignUpValues) => {
@@ -66,7 +65,6 @@ export const signUp = async (credentials: SignUpValues) => {
 
     return redirect("/home");
   } catch (error) {
-    if (isRedirectError(error)) throw error;
     console.error(error);
     return { error: "Something went wrong. Try again later." };
   }
@@ -101,7 +99,6 @@ export const login = async (credentials: LoginValues) => {
 
     return redirect("/home");
   } catch (error) {
-    if (isRedirectError(error)) throw error;
     console.error(error);
     return { error: "Something went wrong. Try again later." };
   }
