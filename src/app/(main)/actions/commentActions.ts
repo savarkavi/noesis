@@ -20,14 +20,35 @@ export const createComment = async ({
 
   const { content: validatedContent } = commentSchema.parse({ content });
 
-  const newComment = await prisma.comment.create({
-    data: {
-      content: validatedContent,
-      postId,
-      userId: user.id,
-    },
-    include: commentDataInclude,
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
   });
+
+  if (!post) return { error: "Post not found" };
+
+  const [newComment] = await prisma.$transaction([
+    prisma.comment.create({
+      data: {
+        content: validatedContent,
+        postId,
+        userId: user.id,
+      },
+      include: commentDataInclude,
+    }),
+
+    ...(post.userId !== user.id
+      ? [
+          prisma.notification.create({
+            data: {
+              recipientId: post.userId,
+              issuerId: user.id,
+              postId,
+              type: "COMMENT",
+            },
+          }),
+        ]
+      : []),
+  ]);
 
   return newComment;
 };
