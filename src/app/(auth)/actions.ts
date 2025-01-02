@@ -62,12 +62,11 @@ export const signUp = async (credentials: SignUpValues) => {
     const session = await createSession(token, newUser.id);
 
     await setSessionTokenCookie(token, session.expiresAt);
-
-    return redirect("/home");
   } catch (error) {
     console.error(error);
     return { error: "Something went wrong. Try again later." };
   }
+  return redirect("/home");
 };
 
 export const login = async (credentials: LoginValues) => {
@@ -96,12 +95,11 @@ export const login = async (credentials: LoginValues) => {
     const session = await createSession(token, exisitingUser.id);
 
     await setSessionTokenCookie(token, session.expiresAt);
-
-    return redirect("/home");
   } catch (error) {
     console.error(error);
     return { error: "Something went wrong. Try again later." };
   }
+  return redirect("/home");
 };
 
 export const logout = async () => {
