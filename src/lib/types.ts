@@ -52,6 +52,11 @@ export const notificationDataInclude = {
       caption: true,
     },
   },
+  comment: {
+    select: {
+      content: true,
+    },
+  },
 } satisfies Prisma.NotificationInclude;
 
 export type PostData = Prisma.PostGetPayload<{
