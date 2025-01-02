@@ -10,7 +10,7 @@ const Comment = ({ comment }: { comment: CommentData }) => {
 
   return (
     <div className="flex gap-4 py-6">
-      <div className="relative h-10 w-10 rounded-full">
+      <div className="relative h-10 w-10 shrink-0 rounded-full">
         <Image
           src={comment.user.avatarUrl || profilePlaceholder}
           alt="profile image"
