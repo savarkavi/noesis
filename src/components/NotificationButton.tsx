@@ -12,6 +12,7 @@ const NotificationButton = () => {
       kyInstance
         .get("notifications/unread-count")
         .json<{ unreadCount: number }>(),
+    refetchInterval: 60 * 1000,
   });
 
   return (
