@@ -26,29 +26,24 @@ export const createComment = async ({
 
   if (!post) return { error: "Post not found" };
 
-  const [newComment] = await prisma.$transaction([
-    prisma.comment.create({
-      data: {
-        content: validatedContent,
-        postId,
-        userId: user.id,
-      },
-      include: commentDataInclude,
-    }),
+  const newComment = await prisma.comment.create({
+    data: {
+      content: validatedContent,
+      postId,
+      userId: user.id,
+    },
+    include: commentDataInclude,
+  });
 
-    ...(post.userId !== user.id
-      ? [
-          prisma.notification.create({
-            data: {
-              recipientId: post.userId,
-              issuerId: user.id,
-              postId,
-              type: "COMMENT",
-            },
-          }),
-        ]
-      : []),
-  ]);
+  await prisma.notification.create({
+    data: {
+      recipientId: post.userId,
+      issuerId: user.id,
+      postId,
+      commentId: newComment.id,
+      type: "COMMENT",
+    },
+  });
 
   return newComment;
 };
@@ -69,6 +64,12 @@ export const deleteComment = async (id: string) => {
   const deletedComment = await prisma.comment.delete({
     where: { id },
     include: commentDataInclude,
+  });
+
+  await prisma.notification.delete({
+    where: {
+      commentId: deletedComment.id,
+    },
   });
 
   return deletedComment;
