@@ -30,12 +30,12 @@ const DeletePostDialog = ({ open, onClose, post }: DeletePostDialogProps) => {
             Are you sure you want to delete this post?
           </AlertDialogTitle>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="w-full flex-row items-center justify-end gap-4">
+          <AlertDialogCancel className="my-0 w-fit">Cancel</AlertDialogCancel>
           <Button
             variant="destructive"
             disabled={mutation.isPending}
-            className="flex w-[100px] items-center justify-center"
+            className="flex w-fit items-center justify-center"
             onClick={() =>
               mutation.mutate(post.id, {
                 onSuccess: () => toast.success("Post deleted"),
