@@ -1,11 +1,12 @@
 "use client";
 
 import { kyInstance } from "@/lib/ky";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { BellIcon } from "lucide-react";
 import Link from "next/link";
 
-const NotificationButton = () => {
+const NotificationButton = ({ isMenuSheet }: { isMenuSheet?: boolean }) => {
   const { data } = useQuery({
     queryKey: ["unread-notifications"],
     queryFn: () =>
@@ -28,7 +29,11 @@ const NotificationButton = () => {
           </div>
         )}
       </div>
-      <span className="hidden text-xl md:inline">Notifications</span>
+      <span
+        className={cn(isMenuSheet ? "text-xl" : "hidden text-xl md:inline")}
+      >
+        Notifications
+      </span>
     </Link>
   );
 };
