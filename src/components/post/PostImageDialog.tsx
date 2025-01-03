@@ -17,12 +17,12 @@ const PostImageDialog = ({ src }: { src: string }) => {
           />
         </div>
       </DialogTrigger>
-      <DialogContent className="h-full max-w-fit border-none bg-transparent p-0">
+      <DialogContent className="max-w-max border-none bg-transparent p-0 xl:h-full xl:max-w-fit">
         <DialogTitle className="hidden">Full Size Image</DialogTitle>
         <Image
           src={src}
           alt="image preview"
-          className="h-screen w-max object-contain"
+          className="h-screen w-full object-contain xl:h-screen xl:w-max"
           width={0}
           height={0}
           unoptimized
