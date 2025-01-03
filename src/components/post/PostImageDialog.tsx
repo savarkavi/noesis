@@ -5,9 +5,13 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import Image from "next/image";
 
 const PostImageDialog = ({ src }: { src: string }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <Dialog>
-      <DialogTrigger className="w-full">
+      <DialogTrigger className="w-full" onClick={handleClick}>
         <div className="relative h-[500px] w-full">
           <Image
             src={src}
