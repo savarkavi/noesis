@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ClientUploadedFileData } from "uploadthing/types";
 import React, { useRef } from "react";
-import { previewFile } from "./PostCommentry";
+import { LinkInfo, PreviewFile } from "./PostCommentry";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { PostType } from "@prisma/client";
+import LinkDialog from "./LinkDialog";
 
 interface PostEditorProps {
   isUploading: boolean;
@@ -19,11 +21,13 @@ interface PostEditorProps {
       }>[]
     | undefined
   >;
-  setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
+  setPreviewFiles: React.Dispatch<React.SetStateAction<PreviewFile[]>>;
   onSubmit: () => Promise<void>;
   input: string;
-  value: string;
+  value: PostType | null;
   isPending: boolean;
+  linkInfo: LinkInfo;
+  onChangeLinkInfo: (title: string, url: string) => void;
 }
 
 const PostEditorFooter = ({
@@ -34,6 +38,8 @@ const PostEditorFooter = ({
   input,
   value,
   isPending,
+  linkInfo,
+  onChangeLinkInfo,
 }: PostEditorProps) => {
   const loaderRef = useRef(null);
 
@@ -67,21 +73,31 @@ const PostEditorFooter = ({
 
   return (
     <div className="mt-4 flex items-center justify-between gap-4 border-t border-gray-400 pt-4">
-      <div>
-        {isUploading && (
-          <div ref={loaderRef} className="upload-loader flex gap-2">
-            <p className="text-sm">Uploading files</p>
-            <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-            <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-            <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-          </div>
-        )}
-      </div>
-      <div className="flex items-center gap-4 self-end">
-        <MediaInput
-          startUpload={startUpload}
-          setPreviewFiles={setPreviewFiles}
-        />
+      <div className="flex w-full items-center justify-between gap-4">
+        <div>
+          {value !== null &&
+            (value !== "MEDIA" ? (
+              <LinkDialog
+                linkInfo={linkInfo}
+                onChangeLinkInfo={onChangeLinkInfo}
+              />
+            ) : (
+              <MediaInput
+                startUpload={startUpload}
+                setPreviewFiles={setPreviewFiles}
+              />
+            ))}
+        </div>
+        <div>
+          {isUploading && (
+            <div ref={loaderRef} className="upload-loader flex gap-2">
+              <p className="text-sm">Uploading files</p>
+              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+            </div>
+          )}
+        </div>
         <Button
           onClick={onSubmit}
           disabled={!input.trim() || isUploading || isPending}
@@ -95,8 +111,8 @@ const PostEditorFooter = ({
           {isPending ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
-            <div className="flex items-center gap-3">
-              <PlusCircle size={20} />
+            <div className="flex items-center gap-2">
+              <PlusCircle className="size-12 shrink-0" />
               <span className="text-lg">Post</span>
             </div>
           )}

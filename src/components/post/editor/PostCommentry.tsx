@@ -14,15 +14,29 @@ import "swiper/css/navigation";
 import PreviewFiles from "./PreviewFiles";
 import PostEditorFooter from "./PostEditorFooter";
 import { useDropzone } from "@uploadthing/react";
+import { PostType } from "@prisma/client";
 
-export interface previewFile {
+export interface PreviewFile {
   type: string;
   url: string;
   name: string;
 }
 
-const PostCommentry = ({ value }: { value: string }) => {
-  const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
+export interface LinkInfo {
+  title: string;
+  url: string;
+}
+
+const PostCommentry = ({ value }: { value: PostType | null }) => {
+  const [previewFiles, setPreviewFiles] = useState<PreviewFile[]>([]);
+  const [linkInfo, setLinkInfo] = useState<LinkInfo>({
+    title: "",
+    url: "",
+  });
+
+  const handleChangeLinkInfo = (title: string, url: string) => {
+    setLinkInfo({ title, url });
+  };
 
   const mutation = useCreatePostMutation();
 
@@ -66,7 +80,7 @@ const PostCommentry = ({ value }: { value: string }) => {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "Write your thoughts about this post",
+        placeholder: "Write a caption about the post...",
       }),
     ],
     immediatelyRender: false,
@@ -78,22 +92,24 @@ const PostCommentry = ({ value }: { value: string }) => {
     }) || "";
 
   const onSubmit = async () => {
-    toast.promise(
-      mutation.mutateAsync({
-        caption: input,
-        attachments: attachments.map((a) => a.serverData.mediaId),
-      }),
-      {
-        loading: "Creating post...",
-        success: () => {
-          editor?.commands.clearContent();
-          setPreviewFiles([]);
-          setAttachments([]);
-          return "Post created";
+    if (value)
+      toast.promise(
+        mutation.mutateAsync({
+          caption: input,
+          attachments: attachments.map((a) => a.serverData.mediaId),
+          type: value,
+        }),
+        {
+          loading: "Creating post...",
+          success: () => {
+            editor?.commands.clearContent();
+            setPreviewFiles([]);
+            setAttachments([]);
+            return "Post created";
+          },
+          error: "Failed to create the post. Try again later.",
         },
-        error: "Failed to create the post. Try again later.",
-      },
-    );
+      );
   };
 
   return (
@@ -102,7 +118,7 @@ const PostCommentry = ({ value }: { value: string }) => {
         <EditorContent
           editor={editor}
           className={cn(
-            "py-4 text-white",
+            "text-white",
             isDragActive && "rounded-xl px-2 outline-dashed outline-[0.5px]",
           )}
         />
@@ -124,6 +140,8 @@ const PostCommentry = ({ value }: { value: string }) => {
         input={input}
         value={value}
         isPending={mutation.isPending}
+        linkInfo={linkInfo}
+        onChangeLinkInfo={handleChangeLinkInfo}
       />
     </div>
   );
