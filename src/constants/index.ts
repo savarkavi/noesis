@@ -67,15 +67,19 @@ export const bottomMenuItems = [
 
 export const typeOfPosts = [
   {
-    value: "media",
-    label: "Media",
+    value: "YOUTUBE_VIDEO",
+    label: "Youtube Video",
   },
   {
-    value: "commentry",
-    label: "Commentry",
+    value: "ARTICLE",
+    label: "Article",
   },
   {
-    value: "external-link",
+    value: "EXTERNAL_LINK",
     label: "External Link",
+  },
+  {
+    value: "MEDIA",
+    label: "Media",
   },
 ];
