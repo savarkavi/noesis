@@ -4,10 +4,12 @@ import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
 import { postDataInclude } from "@/lib/types";
 import { postSchema } from "@/lib/validation";
+import { PostType } from "@prisma/client";
 
 export const createPost = async (data: {
   caption: string;
   attachments: string[];
+  type: PostType;
 }) => {
   const { user } = await getCurrentSession();
 
@@ -22,6 +24,7 @@ export const createPost = async (data: {
       attachments: {
         connect: attachments.map((id) => ({ id })),
       },
+      type: data.type,
     },
     include: postDataInclude,
   });
