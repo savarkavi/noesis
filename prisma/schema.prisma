@@ -45,18 +45,27 @@ model Session {
 model Post {
   id            String         @id @default(uuid())
   userId        String
-  caption       String
-  imageUrl      String?
+  caption       String?
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments   Media[]
+  linkTitle     String?
+  linkUrl       String?
   likes         Like[]
   bookmarks     Bookmark[]
   comments      Comment[]
   notifications Notification[]
+  type          PostType
 
   createdAt DateTime @default(now())
 
   @@map("posts")
+}
+
+enum PostType {
+  YOUTUBE_VIDEO
+  ARTICLE
+  EXTERNAL_LINK
+  MEDIA
 }
 
 model Follow {
