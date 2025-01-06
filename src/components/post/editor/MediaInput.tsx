@@ -1,11 +1,11 @@
 import { Images } from "lucide-react";
 import { Dispatch, SetStateAction, useRef } from "react";
-import { previewFile } from "./PostCommentry";
+import { PreviewFile } from "./PostCommentry";
 import { validateFiles } from "@/lib/utils";
 
 interface MediaInputProps {
   startUpload: (files: File[]) => void;
-  setPreviewFiles: Dispatch<SetStateAction<previewFile[]>>;
+  setPreviewFiles: Dispatch<SetStateAction<PreviewFile[]>>;
 }
 
 const MediaInput = ({ startUpload, setPreviewFiles }: MediaInputProps) => {
@@ -39,10 +39,13 @@ const MediaInput = ({ startUpload, setPreviewFiles }: MediaInputProps) => {
 
   return (
     <div>
-      <Images
-        className="size-6 cursor-pointer text-gray-400"
+      <div
+        className="flex cursor-pointer items-center gap-2 rounded-full border border-muted-foreground bg-muted px-4 py-2 text-sm"
         onClick={onMediaClick}
-      />
+      >
+        <Images className="size-4 text-gray-400" />
+        Upload Media
+      </div>
       <input
         ref={inputRef}
         onChange={(e) => onSelectFiles(e)}
