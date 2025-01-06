@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/popover";
 import { typeOfPosts } from "@/constants";
 import { cn } from "@/lib/utils";
+import { PostType } from "@prisma/client";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type PostTypeDropdownProps = {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  value: PostType | null;
+  setValue: Dispatch<SetStateAction<PostType | null>>;
 };
 
 const PostTypeDropdown = ({ value, setValue }: PostTypeDropdownProps) => {
@@ -49,7 +50,11 @@ const PostTypeDropdown = ({ value, setValue }: PostTypeDropdownProps) => {
                   key={type.value}
                   value={type.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setValue(
+                      currentValue === value
+                        ? null
+                        : (currentValue as PostType),
+                    );
                     setOpen(false);
                   }}
                 >

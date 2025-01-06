@@ -6,10 +6,11 @@ import PostCommentry from "./PostCommentry";
 import Image from "next/image";
 import profilePlaceholder from "../../../assets/profile-placeholder.png";
 import { useSession } from "@/contexts/SessionProvider";
+import { PostType } from "@prisma/client";
 
 const PostEditor = () => {
   const { user } = useSession();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<PostType | null>(null);
 
   return (
     <div className="flex flex-col gap-12 p-6">
