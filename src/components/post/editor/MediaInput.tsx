@@ -1,6 +1,6 @@
 import { Images } from "lucide-react";
 import { Dispatch, SetStateAction, useRef } from "react";
-import { PreviewFile } from "./PostCommentry";
+import { PreviewFile } from "./PostInput";
 import { validateFiles } from "@/lib/utils";
 
 interface MediaInputProps {

@@ -16,14 +16,14 @@ import { typeOfPosts } from "@/constants";
 import { cn } from "@/lib/utils";
 import { PostType } from "@prisma/client";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 type PostTypeDropdownProps = {
   value: PostType | null;
-  setValue: Dispatch<SetStateAction<PostType | null>>;
+  onValueChange: (type: PostType | null) => void;
 };
 
-const PostTypeDropdown = ({ value, setValue }: PostTypeDropdownProps) => {
+const PostTypeDropdown = ({ value, onValueChange }: PostTypeDropdownProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -50,7 +50,7 @@ const PostTypeDropdown = ({ value, setValue }: PostTypeDropdownProps) => {
                   key={type.value}
                   value={type.value}
                   onSelect={(currentValue) => {
-                    setValue(
+                    onValueChange(
                       currentValue === value
                         ? null
                         : (currentValue as PostType),

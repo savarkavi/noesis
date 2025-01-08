@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { previewFile } from "./PostCommentry";
+import { PreviewFile } from "./PostInput";
 import { CircleX } from "lucide-react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
@@ -13,9 +13,9 @@ import "./player.css";
 import type { VideoMimeType } from "@vidstack/react";
 
 interface PreviewFilesProp {
-  previewFiles: previewFile[];
+  previewFiles: PreviewFile[];
   removeAttachment: (fileName: string) => void;
-  setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
+  setPreviewFiles: React.Dispatch<React.SetStateAction<PreviewFile[]>>;
   isUploading: boolean;
 }
 
