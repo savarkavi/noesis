@@ -43,18 +43,23 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <Link
-              href={`/users/${post.user.username}`}
-              className="font-semibold"
-            >
-              {post.user.fullname || post.user.username}
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/users/${post.user.username}`}
+                className="font-semibold"
+              >
+                {post.user.fullname || post.user.username}
+              </Link>
+              <p className="text-sm text-gray-500">
+                {formatRelativeDate(post.createdAt)}
+              </p>
+            </div>
             <h2 className="text-sm font-semibold text-gray-500">{`@${post.user.username}`}</h2>
           </div>
           <div className="flex items-start gap-4">
-            <p className="text-sm text-gray-500">
-              {formatRelativeDate(post.createdAt)}
-            </p>
+            <button className="flex w-fit items-center gap-2 rounded-full border border-muted-foreground bg-muted px-4 py-1 text-[0.8rem]">
+              {post.type.toLowerCase().replace(/_/g, " ")}
+            </button>
             {userId === post.userId && <PostOptionsButton post={post} />}
           </div>
         </div>
@@ -63,9 +68,22 @@ const Post = ({ post, userId }: PostProps) => {
         <Linkify>
           <p>{post.caption}</p>
         </Linkify>
+        <div>
+          {post.linkUrl && (
+            <div className="mt-4">
+              <Link
+                target="_blank"
+                href={post.linkUrl}
+                className="text-3xl text-blue-600"
+              >
+                {post.linkTitle}
+              </Link>
+            </div>
+          )}
+        </div>
         {post.attachments.length > 0 && <PostMedia post={post} />}
       </div>
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-2 flex items-center justify-between">
         <div className="flex items-center gap-10">
           <LikeButton
             postId={post.id}

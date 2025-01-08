@@ -12,7 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link as LinkIcon } from "lucide-react";
-import { LinkInfo } from "./PostCommentry";
+import { LinkInfo } from "./PostInput";
+import { useState } from "react";
 
 interface LinkDialogProps {
   linkInfo: LinkInfo;
@@ -20,8 +21,10 @@ interface LinkDialogProps {
 }
 
 const LinkDialog = ({ linkInfo, onChangeLinkInfo }: LinkDialogProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <div className="flex items-center gap-2 rounded-full border border-muted-foreground bg-muted px-4 py-2 text-sm">
           <LinkIcon className="size-4" />
@@ -39,9 +42,7 @@ const LinkDialog = ({ linkInfo, onChangeLinkInfo }: LinkDialogProps) => {
             </Label>
             <Input
               id="title"
-              onChange={(e) =>
-                onChangeLinkInfo(e.target.value.trim(), linkInfo.url)
-              }
+              onChange={(e) => onChangeLinkInfo(e.target.value, linkInfo.url)}
               value={linkInfo.title}
             />
           </div>
@@ -51,15 +52,20 @@ const LinkDialog = ({ linkInfo, onChangeLinkInfo }: LinkDialogProps) => {
             </Label>
             <Input
               id="url"
-              onChange={(e) =>
-                onChangeLinkInfo(linkInfo.title, e.target.value.trim())
-              }
+              onChange={(e) => onChangeLinkInfo(linkInfo.title, e.target.value)}
               value={linkInfo.url}
             />
           </div>
         </div>
         <DialogFooter className="mt-4">
-          <Button className="text-white">Save</Button>
+          <Button
+            className="text-white"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

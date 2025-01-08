@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ClientUploadedFileData } from "uploadthing/types";
 import React, { useRef } from "react";
-import { LinkInfo, PreviewFile } from "./PostCommentry";
+import { LinkInfo, PreviewFile } from "./PostInput";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PostType } from "@prisma/client";
@@ -43,6 +43,21 @@ const PostEditorFooter = ({
 }: PostEditorProps) => {
   const loaderRef = useRef(null);
 
+  const handleButtonDisabled = () => {
+    if (value !== "MEDIA") {
+      return (
+        !input.trim() ||
+        isUploading ||
+        isPending ||
+        !value ||
+        !linkInfo.title.trim() ||
+        !linkInfo.url.trim()
+      );
+    } else {
+      return !input.trim() || isUploading || isPending || !value;
+    }
+  };
+
   useGSAP(
     () => {
       gsap
@@ -74,7 +89,7 @@ const PostEditorFooter = ({
   return (
     <div className="mt-4 flex items-center justify-between gap-4 border-t border-gray-400 pt-4">
       <div className="flex w-full items-center justify-between gap-4">
-        <div>
+        <div className="flex items-center gap-3">
           {value !== null &&
             (value !== "MEDIA" ? (
               <LinkDialog
@@ -87,25 +102,23 @@ const PostEditorFooter = ({
                 setPreviewFiles={setPreviewFiles}
               />
             ))}
-        </div>
-        <div>
-          {isUploading && (
-            <div ref={loaderRef} className="upload-loader flex gap-2">
-              <p className="text-sm">Uploading files</p>
-              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-              <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
-            </div>
-          )}
+          <div>
+            {isUploading && (
+              <div ref={loaderRef} className="upload-loader flex w-fit gap-2">
+                <p className="text-sm">Uploading files</p>
+                <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+                <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+                <span className="mb-1 h-1 w-1 self-end rounded-full bg-blue-500"></span>
+              </div>
+            )}
+          </div>
         </div>
         <Button
           onClick={onSubmit}
-          disabled={!input.trim() || isUploading || isPending}
+          disabled={handleButtonDisabled()}
           className={cn(
             "flex w-[100px] items-center justify-center rounded-xl border bg-blue-600 py-5 text-white",
-            value
-              ? "cursor-pointer opacity-100"
-              : "cursor-default opacity-30 hover:bg-blue-600",
+            value ? "cursor-pointer opacity-100" : "cursor-not-allowed",
           )}
         >
           {isPending ? (
