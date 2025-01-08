@@ -9,3 +9,8 @@
 .tiptap.ProseMirror {
   outline: none;
 }
+
+.tiptap.ProseMirror a {
+  color: #1d1dd5;
+  cursor: pointer;
+}
