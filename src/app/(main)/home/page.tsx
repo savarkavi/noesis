@@ -11,7 +11,7 @@ export default async function FeedPage() {
   if (!user) return;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-[55px] md:p-0">
       <PostEditor />
       <Tabs defaultValue="feed" className="mt-6">
         <TabsList className="h-fit w-full rounded-none">
