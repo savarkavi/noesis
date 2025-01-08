@@ -16,8 +16,11 @@ const CommentButton = ({ totalComments, onClicked }: CommentButtonProps) => {
       <button>
         <MessageSquare className="size-5 text-blue-500" />
       </button>
-      <span className="text-sm tabular-nums text-gray-400">
-        {`${totalComments} ${totalComments === 1 ? "comment" : "comments"}`}
+      <span className="flex items-center gap-1 text-sm tabular-nums text-gray-400">
+        {`${totalComments}`}
+        <span className="hidden md:inline">
+          {totalComments === 1 ? <span>comment</span> : <span>comments</span>}
+        </span>
       </span>
     </div>
   );

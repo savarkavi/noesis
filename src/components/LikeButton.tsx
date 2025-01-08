@@ -66,8 +66,11 @@ const LikeButton = ({
           )}
         />
       </button>
-      <span className="text-sm tabular-nums text-gray-400">
-        {`${data?.totalLikes} ${data?.totalLikes === 1 ? "like" : "likes"}`}
+      <span className="flex items-center gap-1 text-sm tabular-nums text-gray-400">
+        {`${data?.totalLikes}`}
+        <span className="hidden md:inline">
+          {data?.totalLikes === 1 ? <span>like</span> : <span>likes</span>}
+        </span>
       </span>
     </div>
   );
