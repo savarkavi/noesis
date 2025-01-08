@@ -26,6 +26,8 @@ export const postSchema = z.object({
   attachments: z
     .array(z.string())
     .max(4, "You cannot upload more than 4 files."),
+  linkTitle: z.string().trim(),
+  linkUrl: z.string().trim(),
 });
 
 export const updateUserProfileSchema = z.object({
