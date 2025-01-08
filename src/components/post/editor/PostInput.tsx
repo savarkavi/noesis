@@ -15,6 +15,7 @@ import PreviewFiles from "./PreviewFiles";
 import PostEditorFooter from "./PostEditorFooter";
 import { useDropzone } from "@uploadthing/react";
 import { PostType } from "@prisma/client";
+import Link from "@tiptap/extension-link";
 
 export interface PreviewFile {
   type: string;
@@ -27,7 +28,7 @@ export interface LinkInfo {
   url: string;
 }
 
-const PostCommentry = ({ value }: { value: PostType | null }) => {
+const PostInput = ({ value }: { value: PostType | null }) => {
   const [previewFiles, setPreviewFiles] = useState<PreviewFile[]>([]);
   const [linkInfo, setLinkInfo] = useState<LinkInfo>({
     title: "",
@@ -82,6 +83,13 @@ const PostCommentry = ({ value }: { value: PostType | null }) => {
       Placeholder.configure({
         placeholder: "Write a caption about the post...",
       }),
+      Link.configure({
+        autolink: true,
+        isAllowedUri: (url, ctx) =>
+          ctx.defaultValidate(url) &&
+          !url.startsWith("./") &&
+          !url.includes(" "),
+      }),
     ],
     immediatelyRender: false,
   });
@@ -98,6 +106,8 @@ const PostCommentry = ({ value }: { value: PostType | null }) => {
           caption: input,
           attachments: attachments.map((a) => a.serverData.mediaId),
           type: value,
+          linkTitle: linkInfo.title,
+          linkUrl: linkInfo.url,
         }),
         {
           loading: "Creating post...",
@@ -105,6 +115,7 @@ const PostCommentry = ({ value }: { value: PostType | null }) => {
             editor?.commands.clearContent();
             setPreviewFiles([]);
             setAttachments([]);
+            setLinkInfo({ title: "", url: "" });
             return "Post created";
           },
           error: "Failed to create the post. Try again later.",
@@ -124,7 +135,18 @@ const PostCommentry = ({ value }: { value: PostType | null }) => {
         />
         <input {...getInputProps()} />
       </div>
-      {previewFiles.length > 0 && (
+      {value !== "MEDIA" && linkInfo.url.trim() !== "" && (
+        <div className="mt-4 w-fit cursor-pointer">
+          <a
+            target="_blank"
+            href={linkInfo.url}
+            className="text-xl text-blue-600"
+          >
+            {linkInfo.title}
+          </a>
+        </div>
+      )}
+      {previewFiles.length > 0 && value === "MEDIA" && (
         <PreviewFiles
           previewFiles={previewFiles}
           setPreviewFiles={setPreviewFiles}
@@ -147,4 +169,4 @@ const PostCommentry = ({ value }: { value: PostType | null }) => {
   );
 };
 
-export default PostCommentry;
+export default PostInput;
