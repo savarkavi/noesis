@@ -43,10 +43,10 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <Link
                 href={`/users/${post.user.username}`}
-                className="font-semibold"
+                className="text-sm font-semibold md:text-base"
               >
                 {post.user.fullname || post.user.username}
               </Link>
@@ -57,7 +57,7 @@ const Post = ({ post, userId }: PostProps) => {
             <h2 className="text-sm font-semibold text-gray-500">{`@${post.user.username}`}</h2>
           </div>
           <div className="flex items-start gap-4">
-            <button className="flex w-fit items-center gap-2 rounded-full border border-muted-foreground bg-muted px-4 py-1 text-[0.8rem]">
+            <button className="hidden w-fit items-center gap-2 rounded-full border border-muted-foreground bg-muted px-4 py-1 text-[0.8rem] lg:flex">
               {post.type.toLowerCase().replace(/_/g, " ")}
             </button>
             {userId === post.userId && <PostOptionsButton post={post} />}
@@ -83,8 +83,8 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         {post.attachments.length > 0 && <PostMedia post={post} />}
       </div>
-      <div className="mt-2 flex items-center justify-between">
-        <div className="flex items-center gap-10">
+      <div className="mt-2 flex items-center gap-6 md:justify-between">
+        <div className="flex items-center gap-6 md:gap-10">
           <LikeButton
             postId={post.id}
             initialState={{ totalLikes: post.likes.length, isLiked: !!isLiked }}
@@ -98,6 +98,11 @@ const Post = ({ post, userId }: PostProps) => {
           postId={post.id}
           initialState={{ isBookmarked: !!isBookmarked }}
         />
+        <div className="flex w-full justify-end lg:hidden">
+          <button className="w-fit items-center gap-2 self-end rounded-full border border-muted-foreground bg-muted px-4 py-1 text-[0.8rem] lg:hidden">
+            {post.type.toLowerCase().replace(/_/g, " ")}
+          </button>
+        </div>
       </div>
       {isCommentsClicked && (
         <Comments postId={post.id} onClicked={handleCommentsClose} />
