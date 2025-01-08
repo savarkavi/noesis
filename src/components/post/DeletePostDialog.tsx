@@ -35,7 +35,7 @@ const DeletePostDialog = ({ open, onClose, post }: DeletePostDialogProps) => {
           <Button
             variant="destructive"
             disabled={mutation.isPending}
-            className="flex w-fit items-center justify-center"
+            className="flex w-20 items-center justify-center"
             onClick={() =>
               mutation.mutate(post.id, {
                 onSuccess: () => toast.success("Post deleted"),

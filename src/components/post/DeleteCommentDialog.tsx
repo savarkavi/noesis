@@ -39,7 +39,7 @@ const DeleteCommentDialog = ({
           <Button
             variant="destructive"
             disabled={mutation.isPending}
-            className="flex w-fit items-center justify-center"
+            className="flex w-20 items-center justify-center"
             onClick={() =>
               mutation.mutate(comment.id, {
                 onSuccess: () => toast.success("Comment deleted"),
