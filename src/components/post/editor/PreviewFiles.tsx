@@ -55,7 +55,10 @@ const PreviewFiles = ({
                   >
                     <MediaProvider />
                     <DefaultAudioLayout icons={defaultLayoutIcons} />
-                    <DefaultVideoLayout icons={defaultLayoutIcons} />
+                    <DefaultVideoLayout
+                      icons={defaultLayoutIcons}
+                      smallLayoutWhen={false}
+                    />
                   </MediaPlayer>
                 </div>
               )}
