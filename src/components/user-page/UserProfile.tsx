@@ -23,7 +23,7 @@ const UserProfile = async ({ userData }: { userData: UserData }) => {
   };
 
   return (
-    <div className="p-6">
+    <div className="border-b border-gray-700 p-6">
       <div className="relative mx-auto h-[150px] w-[150px] rounded-full">
         <Image
           src={userData.avatarUrl || profilePlaceholder}

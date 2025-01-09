@@ -55,7 +55,9 @@ const UserPosts = ({
   if (status === "success" && !posts.length) {
     return (
       <p className="mt-16 text-center text-gray-300">
-        This user hasn&apos;t posted yet.
+        {userId === loggedInUser
+          ? "You haven't posted anything yet."
+          : " This user hasn&apos;t posted anything yet."}
       </p>
     );
   }
