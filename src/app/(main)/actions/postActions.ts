@@ -21,7 +21,7 @@ export const createPost = async (data: {
 
   const newPost = await prisma.post.create({
     data: {
-      caption,
+      caption: caption || null,
       userId: user.id,
       attachments: {
         connect: attachments.map((id) => ({ id })),
