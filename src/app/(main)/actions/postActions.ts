@@ -7,17 +7,17 @@ import { postSchema } from "@/lib/validation";
 import { PostType } from "@prisma/client";
 
 export const createPost = async (data: {
-  caption: string;
+  caption: string | null;
   attachments: string[];
   type: PostType;
-  linkTitle: string;
-  linkUrl: string;
+  sourceTitle: string | null;
+  source: string;
 }) => {
   const { user } = await getCurrentSession();
 
   if (!user) throw new Error("Unauthorized");
 
-  const { caption, attachments, linkTitle, linkUrl } = postSchema.parse(data);
+  const { caption, attachments, sourceTitle, source } = postSchema.parse(data);
 
   const newPost = await prisma.post.create({
     data: {
@@ -27,8 +27,8 @@ export const createPost = async (data: {
         connect: attachments.map((id) => ({ id })),
       },
       type: data.type,
-      linkTitle,
-      linkUrl,
+      sourceTitle,
+      source,
     },
     include: postDataInclude,
   });
