@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Link as LinkIcon } from "lucide-react";
 import { LinkInfo } from "./PostInput";
 import { useState } from "react";
+import { isValidUrl } from "@/lib/utils";
 
 interface LinkDialogProps {
   linkInfo: LinkInfo;
@@ -22,6 +23,7 @@ interface LinkDialogProps {
 
 const LinkDialog = ({ linkInfo, onChangeLinkInfo }: LinkDialogProps) => {
   const [open, setOpen] = useState(false);
+  const [isUrlValid, setIsUrlValid] = useState<boolean>(true);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -52,17 +54,26 @@ const LinkDialog = ({ linkInfo, onChangeLinkInfo }: LinkDialogProps) => {
             </Label>
             <Input
               id="url"
-              onChange={(e) => onChangeLinkInfo(linkInfo.title, e.target.value)}
+              onChange={(e) => {
+                const newUrl = e.target.value;
+                setIsUrlValid(isValidUrl(newUrl));
+                onChangeLinkInfo(linkInfo.title, newUrl);
+              }}
               value={linkInfo.url}
+              className={!isUrlValid ? "border-red-500" : ""}
             />
+            {!isUrlValid && (
+              <span className="text-sm text-red-500">
+                Please enter a valid URL
+              </span>
+            )}
           </div>
         </div>
         <DialogFooter className="mt-4">
           <Button
             className="text-white"
-            onClick={() => {
-              setOpen(false);
-            }}
+            onClick={() => setOpen(false)}
+            disabled={!isUrlValid}
           >
             Save
           </Button>
