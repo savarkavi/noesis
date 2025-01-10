@@ -64,3 +64,12 @@ export function validateFiles(fileList: FileList) {
     });
   });
 }
+
+export function isValidUrl(url: string) {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
