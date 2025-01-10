@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "utfs.io",
       },
+      {
+        protocol: "https",
+        hostname: "8impkubtqz.ufs.sh",
+      },
     ],
   },
   serverExternalPackages: ["@node-rs/argon2"],
