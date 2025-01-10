@@ -24,7 +24,6 @@ interface PostEditorProps {
   previewFiles: PreviewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<PreviewFile[]>>;
   onSubmit: () => Promise<void>;
-  input: string;
   value: PostType | null;
   isPending: boolean;
   linkInfo: LinkInfo;
@@ -39,7 +38,6 @@ const PostEditorFooter = ({
   previewFiles,
   setPreviewFiles,
   onSubmit,
-  input,
   value,
   isPending,
   linkInfo,
@@ -52,7 +50,6 @@ const PostEditorFooter = ({
   const handleButtonDisabled = () => {
     if (value !== "MEDIA") {
       return (
-        !input.trim() ||
         isUploading ||
         isPending ||
         !value ||

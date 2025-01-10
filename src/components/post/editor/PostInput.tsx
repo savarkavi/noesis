@@ -168,7 +168,6 @@ const PostInput = ({ value }: { value: PostType | null }) => {
         previewFiles={previewFiles}
         setPreviewFiles={setPreviewFiles}
         onSubmit={onSubmit}
-        input={input}
         value={value}
         isPending={mutation.isPending}
         linkInfo={linkInfo}

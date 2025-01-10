@@ -77,7 +77,7 @@ const MediaInput = ({
         <div className="mt-6 flex flex-col gap-3">
           <Label htmlFor="credits">Credits/Source</Label>
           <Input
-            placeholder="link to place where you found the media"
+            placeholder="link to the place where you found the media"
             id="credits"
             onChange={(e) => {
               const mediaSrc = e.target.value;
