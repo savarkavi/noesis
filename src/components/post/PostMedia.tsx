@@ -22,7 +22,7 @@ const PostMedia = ({ post }: { post: PostData }) => {
     <Swiper
       navigation={largeScreen ? true : false}
       modules={largeScreen ? [Navigation] : []}
-      className="mt-6"
+      className="mt-2"
       spaceBetween={8}
     >
       {post.attachments.map((a) => {

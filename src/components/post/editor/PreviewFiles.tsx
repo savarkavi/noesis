@@ -31,7 +31,7 @@ const PreviewFiles = ({
   };
 
   return (
-    <Swiper navigation={true} modules={[Navigation]} className="my-8">
+    <Swiper navigation={true} modules={[Navigation]} className="my-4">
       {previewFiles.map((file) => {
         return (
           <SwiperSlide key={file.url}>
