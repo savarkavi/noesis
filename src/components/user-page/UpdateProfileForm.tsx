@@ -28,7 +28,7 @@ const UpdateProfileForm = ({ user }: { user: User }) => {
   const form = useForm<UserProfileValues>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
-      fullname: user.fullname || undefined,
+      fullname: user.fullname || "",
       username: user.username,
       bio: user.bio || "",
     },
