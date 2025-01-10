@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidUrl } from "./utils";
 
 const requiredString = z.string().trim().min(1, "Required");
 
@@ -22,12 +23,15 @@ export const loginSchema = z.object({
 });
 
 export const postSchema = z.object({
-  caption: requiredString,
+  caption: z.string().nullable(),
   attachments: z
     .array(z.string())
     .max(4, "You cannot upload more than 4 files."),
-  linkTitle: z.string().trim(),
-  linkUrl: z.string().trim(),
+  sourceTitle: z.string().trim().nullable(),
+  source: z
+    .string()
+    .trim()
+    .refine((url) => isValidUrl(url), "Please enter a valid URL"),
 });
 
 export const updateUserProfileSchema = z.object({
