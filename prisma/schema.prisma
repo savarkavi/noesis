@@ -48,8 +48,8 @@ model Post {
   caption       String?
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments   Media[]
-  linkTitle     String?
-  linkUrl       String?
+  sourceTitle   String?
+  source        String
   likes         Like[]
   bookmarks     Bookmark[]
   comments      Comment[]
