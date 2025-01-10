@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import { cn, validateFiles } from "@/lib/utils";
+import { cn, isValidUrl, validateFiles } from "@/lib/utils";
 import { useCreatePostMutation } from "@/lib/mutations/postMutations";
 import { toast } from "sonner";
 import useMediaUpload from "@/hooks/useMediaUpload";
@@ -34,9 +34,14 @@ const PostInput = ({ value }: { value: PostType | null }) => {
     title: "",
     url: "",
   });
+  const [mediaCredit, setMediaCredit] = useState("");
 
   const handleChangeLinkInfo = (title: string, url: string) => {
     setLinkInfo({ title, url });
+  };
+
+  const handleChangeMediaCredit = (src: string) => {
+    setMediaCredit(src);
   };
 
   const mutation = useCreatePostMutation();
@@ -103,11 +108,11 @@ const PostInput = ({ value }: { value: PostType | null }) => {
     if (value)
       toast.promise(
         mutation.mutateAsync({
-          caption: input,
+          caption: input || null,
           attachments: attachments.map((a) => a.serverData.mediaId),
           type: value,
-          linkTitle: linkInfo.title,
-          linkUrl: linkInfo.url,
+          sourceTitle: value !== "MEDIA" ? linkInfo.title : null,
+          source: value !== "MEDIA" ? linkInfo.url : mediaCredit,
         }),
         {
           loading: "Creating post...",
@@ -116,6 +121,7 @@ const PostInput = ({ value }: { value: PostType | null }) => {
             setPreviewFiles([]);
             setAttachments([]);
             setLinkInfo({ title: "", url: "" });
+            setMediaCredit("");
             return "Post created";
           },
           error: "Failed to create the post. Try again later.",
@@ -135,17 +141,19 @@ const PostInput = ({ value }: { value: PostType | null }) => {
         />
         <input {...getInputProps()} />
       </div>
-      {value !== "MEDIA" && linkInfo.url.trim() !== "" && (
-        <div className="mt-4 w-fit cursor-pointer">
-          <a
-            target="_blank"
-            href={linkInfo.url}
-            className="text-xl text-blue-600"
-          >
-            {linkInfo.title}
-          </a>
-        </div>
-      )}
+      {value !== "MEDIA" &&
+        linkInfo.url.trim() !== "" &&
+        isValidUrl(linkInfo.url) && (
+          <div className="mt-4 w-fit cursor-pointer">
+            <a
+              target="_blank"
+              href={linkInfo.url}
+              className="text-xl text-blue-600"
+            >
+              {linkInfo.title}
+            </a>
+          </div>
+        )}
       {previewFiles.length > 0 && value === "MEDIA" && (
         <PreviewFiles
           previewFiles={previewFiles}
@@ -157,6 +165,7 @@ const PostInput = ({ value }: { value: PostType | null }) => {
       <PostEditorFooter
         isUploading={isUploading}
         startUpload={startUpload}
+        previewFiles={previewFiles}
         setPreviewFiles={setPreviewFiles}
         onSubmit={onSubmit}
         input={input}
@@ -164,6 +173,8 @@ const PostInput = ({ value }: { value: PostType | null }) => {
         isPending={mutation.isPending}
         linkInfo={linkInfo}
         onChangeLinkInfo={handleChangeLinkInfo}
+        mediaCredit={mediaCredit}
+        onChangeMediaCredit={handleChangeMediaCredit}
       />
     </div>
   );

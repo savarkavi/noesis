@@ -21,6 +21,7 @@ interface PostEditorProps {
       }>[]
     | undefined
   >;
+  previewFiles: PreviewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<PreviewFile[]>>;
   onSubmit: () => Promise<void>;
   input: string;
@@ -28,11 +29,14 @@ interface PostEditorProps {
   isPending: boolean;
   linkInfo: LinkInfo;
   onChangeLinkInfo: (title: string, url: string) => void;
+  mediaCredit: string;
+  onChangeMediaCredit: (src: string) => void;
 }
 
 const PostEditorFooter = ({
   isUploading,
   startUpload,
+  previewFiles,
   setPreviewFiles,
   onSubmit,
   input,
@@ -40,6 +44,8 @@ const PostEditorFooter = ({
   isPending,
   linkInfo,
   onChangeLinkInfo,
+  mediaCredit,
+  onChangeMediaCredit,
 }: PostEditorProps) => {
   const loaderRef = useRef(null);
 
@@ -54,7 +60,13 @@ const PostEditorFooter = ({
         !linkInfo.url.trim()
       );
     } else {
-      return !input.trim() || isUploading || isPending || !value;
+      return (
+        isUploading ||
+        isPending ||
+        !value ||
+        !mediaCredit.trim() ||
+        !previewFiles.length
+      );
     }
   };
 
@@ -99,7 +111,10 @@ const PostEditorFooter = ({
             ) : (
               <MediaInput
                 startUpload={startUpload}
+                previewFiles={previewFiles}
                 setPreviewFiles={setPreviewFiles}
+                mediaCredit={mediaCredit}
+                onChangeMediaCredit={onChangeMediaCredit}
               />
             ))}
           <div>

@@ -13,6 +13,7 @@ import BookmarkButton from "../BookmarkButton";
 import CommentButton from "../CommentButton";
 import { useState } from "react";
 import Comments from "./Comments";
+import { ExternalLink } from "lucide-react";
 
 interface PostProps {
   post: PostData;
@@ -68,17 +69,24 @@ const Post = ({ post, userId }: PostProps) => {
         <Linkify>
           <p>{post.caption}</p>
         </Linkify>
-        <div>
-          {post.linkUrl && (
-            <div className="mt-4">
-              <Link
-                target="_blank"
-                href={post.linkUrl}
-                className="text-3xl text-blue-600"
-              >
-                {post.linkTitle}
-              </Link>
-            </div>
+        <div className="mt-4 flex flex-col">
+          {post.type !== "MEDIA" ? (
+            <Link
+              target="_blank"
+              href={post.source}
+              className="text-3xl text-blue-600"
+            >
+              {post.sourceTitle}
+            </Link>
+          ) : (
+            <Link
+              target="_blank"
+              href={post.source}
+              className="flex w-fit items-center gap-1 self-end text-muted-foreground"
+            >
+              <span>source</span>
+              <ExternalLink className="size-4" />
+            </Link>
           )}
         </div>
         {post.attachments.length > 0 && <PostMedia post={post} />}
