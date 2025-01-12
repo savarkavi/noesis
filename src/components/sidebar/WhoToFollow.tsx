@@ -12,6 +12,10 @@ const WhoToFollow = async () => {
 
   const { users } = await getWhoToFollowUsers(user);
 
+  if (!users?.length) {
+    return null;
+  }
+
   return (
     <div className="w-full rounded-xl border border-gray-700 p-4">
       <h2 className="text-2xl font-semibold capitalize">Who to follow</h2>
