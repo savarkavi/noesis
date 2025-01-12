@@ -24,11 +24,11 @@ export const menuItems = [
     path: "/notifications",
     icon: BellIcon,
   },
-  {
-    name: "Messages",
-    path: "/messages",
-    icon: MessageCircle,
-  },
+  // {
+  //   name: "Messages",
+  //   path: "/messages",
+  //   icon: MessageCircle,
+  // },
   {
     name: "Bookmarks",
     path: "/bookmarks",
@@ -36,7 +36,7 @@ export const menuItems = [
   },
   {
     name: "Profile",
-    path: "/profile",
+    path: "/users",
     icon: User2,
   },
   {
