@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { toast } from "sonner";
+import { kyInstance } from "./ky";
+import { LinkMetadata, YoutubeMetadata } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -73,3 +75,17 @@ export function isValidUrl(url: string) {
     return false;
   }
 }
+
+export const fetchLinkMetaData = async (url: string) => {
+  const res = await kyInstance
+    .post("scrape", { json: { url } })
+    .json<LinkMetadata>();
+  return res;
+};
+
+export const fetchYoutubeMetaData = async (url: string) => {
+  const res = await kyInstance
+    .post("youtube-metadata", { json: { url } })
+    .json<YoutubeMetadata>();
+  return res;
+};
