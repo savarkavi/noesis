@@ -6,16 +6,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { LinkMetadata, PostPage } from "../types";
 import { useSession } from "@/contexts/SessionProvider";
-import { kyInstance } from "../ky";
-
-export const fetchMetaData = async (url: string) => {
-  const res = await kyInstance
-    .post("scrape", { json: { url } })
-    .json<LinkMetadata>();
-  return res;
-};
+import { fetchLinkMetaData } from "../utils";
+import { PostPage } from "../types";
 
 export function useCreatePostMutation() {
   const { user } = useSession();
@@ -68,7 +61,7 @@ export function useCreatePostMutation() {
       );
 
       if (newPost.type === "ARTICLE" || newPost.type === "EXTERNAL_LINK") {
-        const metadata = await fetchMetaData(newPost.source);
+        const metadata = await fetchLinkMetaData(newPost.source);
 
         if (metadata.title && metadata.description && metadata.url) {
           queryClient.setQueriesData<InfiniteData<PostPage, string | null>>(
