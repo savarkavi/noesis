@@ -1,11 +1,28 @@
 "use server";
 
-import { fetchMetaData } from "@/lib/mutations/postMutations";
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
 import { postDataInclude } from "@/lib/types";
+import { fetchLinkMetaData, fetchYoutubeMetaData } from "@/lib/utils";
 import { postSchema } from "@/lib/validation";
 import { PostType } from "@prisma/client";
+
+type CreatePostData = {
+  caption: string | null;
+  userId: string;
+  attachments: {
+    connect: {
+      id: string;
+    }[];
+  };
+  type: PostType;
+  sourceTitle: string | null;
+  source: string;
+  youtubeVideoId?: string | null;
+  youtubeVideoTitle?: string;
+  youtubeVideoDescription?: string;
+  youtubeVideoThumbnail?: string;
+};
 
 export const createPost = async (data: {
   caption: string | null;
@@ -20,22 +37,32 @@ export const createPost = async (data: {
 
   const { caption, attachments, sourceTitle, source } = postSchema.parse(data);
 
-  const newPost = await prisma.post.create({
-    data: {
-      caption: caption || null,
-      userId: user.id,
-      attachments: {
-        connect: attachments.map((id) => ({ id })),
-      },
-      type: data.type,
-      sourceTitle,
-      source,
+  const postData: CreatePostData = {
+    caption: caption || null,
+    userId: user.id,
+    attachments: {
+      connect: attachments.map((id) => ({ id })),
     },
+    type: data.type,
+    sourceTitle,
+    source,
+  };
+
+  if (data.type === "YOUTUBE_VIDEO") {
+    const youtubeMetadata = await fetchYoutubeMetaData(data.source);
+    postData.youtubeVideoId = youtubeMetadata.id;
+    postData.youtubeVideoTitle = youtubeMetadata.title;
+    postData.youtubeVideoDescription = youtubeMetadata.description;
+    postData.youtubeVideoThumbnail = youtubeMetadata.thumbnail;
+  }
+
+  const newPost = await prisma.post.create({
+    data: postData,
     include: postDataInclude,
   });
 
   if (newPost.type === "ARTICLE" || newPost.type === "EXTERNAL_LINK") {
-    const linkMetadata = await fetchMetaData(newPost.source);
+    const linkMetadata = await fetchLinkMetaData(newPost.source);
 
     if (linkMetadata.title && linkMetadata.description && linkMetadata.url) {
       const createdLinkMetadata = await prisma.linkMetadata.create({
