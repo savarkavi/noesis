@@ -43,20 +43,24 @@ model Session {
 }
 
 model Post {
-  id             String         @id @default(uuid())
-  userId         String
-  caption        String?
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attachments    Media[]
-  sourceTitle    String?
-  source         String
-  likes          Like[]
-  bookmarks      Bookmark[]
-  comments       Comment[]
-  linkMetadataId String?
-  LinkMetadata   LinkMetadata?  @relation(fields: [linkMetadataId], references: [id])
-  notifications  Notification[]
-  type           PostType
+  id                      String         @id @default(uuid())
+  userId                  String
+  caption                 String?
+  user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments             Media[]
+  sourceTitle             String?
+  source                  String
+  likes                   Like[]
+  bookmarks               Bookmark[]
+  comments                Comment[]
+  linkMetadataId          String?
+  LinkMetadata            LinkMetadata?  @relation(fields: [linkMetadataId], references: [id])
+  notifications           Notification[]
+  type                    PostType
+  youtubeVideoId          String?
+  youtubeVideoTitle       String?
+  youtubeVideoDescription String?
+  youtubeVideoThumbnail   String?
 
   createdAt DateTime @default(now())
 
