@@ -9,6 +9,7 @@ export const postDataInclude = {
     },
   },
   attachments: true,
+  LinkMetadata: true,
   likes: true,
   bookmarks: true,
   _count: {
@@ -100,4 +101,11 @@ export interface PostLikesInfo {
 
 export interface PostBookmarkInfo {
   isBookmarked: boolean;
+}
+
+export interface LinkMetadata {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
