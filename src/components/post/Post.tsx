@@ -14,6 +14,7 @@ import CommentButton from "../CommentButton";
 import { useState } from "react";
 import Comments from "./Comments";
 import { ExternalLink } from "lucide-react";
+import LinkPreview from "./LinkPreview";
 
 interface PostProps {
   post: PostData;
@@ -74,9 +75,13 @@ const Post = ({ post, userId }: PostProps) => {
             <Link
               target="_blank"
               href={post.source}
-              className="text-3xl text-blue-600"
+              className="w-fit text-blue-600"
             >
-              {post.sourceTitle}
+              {post.LinkMetadata ? (
+                <LinkPreview metadata={post.LinkMetadata} />
+              ) : (
+                <span className="text-3xl">{post.sourceTitle}</span>
+              )}
             </Link>
           ) : (
             <Link
