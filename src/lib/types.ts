@@ -109,3 +109,10 @@ export interface LinkMetadata {
   image: string;
   url: string;
 }
+
+export interface YoutubeMetadata {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+}
