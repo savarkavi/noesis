@@ -6,8 +6,16 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { PostPage } from "../types";
+import { LinkMetadata, PostPage } from "../types";
 import { useSession } from "@/contexts/SessionProvider";
+import { kyInstance } from "../ky";
+
+export const fetchMetaData = async (url: string) => {
+  const res = await kyInstance
+    .post("scrape", { json: { url } })
+    .json<LinkMetadata>();
+  return res;
+};
 
 export function useCreatePostMutation() {
   const { user } = useSession();
@@ -58,6 +66,37 @@ export function useCreatePostMutation() {
           }
         },
       );
+
+      if (newPost.type === "ARTICLE" || newPost.type === "EXTERNAL_LINK") {
+        const metadata = await fetchMetaData(newPost.source);
+
+        if (metadata.title && metadata.description && metadata.url) {
+          queryClient.setQueriesData<InfiniteData<PostPage, string | null>>(
+            {
+              queryKey: ["post"],
+              predicate(query) {
+                return (
+                  query.queryKey.includes("feed") ||
+                  (query.queryKey.includes("user-post") &&
+                    query.queryKey.includes(user.id))
+                );
+              },
+            },
+            (data) => {
+              const firstPage = data?.pages[0];
+              if (firstPage) {
+                const updatedData = { ...data };
+                updatedData.pages?.forEach((page) => {
+                  page.posts = page.posts.map((post) =>
+                    post.id === newPost.id ? { ...post, metadata } : post,
+                  );
+                });
+                return updatedData;
+              }
+            },
+          );
+        }
+      }
 
       queryClient.invalidateQueries({
         queryKey: queryFilter.queryKey,
