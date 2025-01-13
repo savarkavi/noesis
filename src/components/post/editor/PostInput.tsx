@@ -8,7 +8,7 @@ import { useCreatePostMutation } from "@/lib/mutations/postMutations";
 import { toast } from "sonner";
 import useMediaUpload from "@/hooks/useMediaUpload";
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import PreviewFiles from "./PreviewFiles";
@@ -98,6 +98,20 @@ const PostInput = ({ value }: { value: PostType | null }) => {
     ],
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    if (editor) {
+      const placeholderExtension = editor.extensionManager.extensions.find(
+        (extension) => extension.name === "placeholder",
+      );
+      if (placeholderExtension) {
+        placeholderExtension.options["placeholder"] = !value
+          ? "Found something on the internet? Share it with the World!"
+          : "Write a caption about the post...";
+        editor.view.updateState(editor.view.state);
+      }
+    }
+  }, [value, editor]);
 
   const input =
     editor?.getText({
