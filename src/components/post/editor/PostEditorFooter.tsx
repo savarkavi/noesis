@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PostType } from "@prisma/client";
 import LinkDialog from "./LinkDialog";
+import { Input } from "@/components/ui/input";
 
 interface PostEditorProps {
   isUploading: boolean;
@@ -30,6 +31,8 @@ interface PostEditorProps {
   onChangeLinkInfo: (title: string, url: string) => void;
   mediaCredit: string;
   onChangeMediaCredit: (src: string) => void;
+  youtubeUrl: string;
+  onChangeYoutubeUrl: (url: string) => void;
 }
 
 const PostEditorFooter = ({
@@ -44,11 +47,13 @@ const PostEditorFooter = ({
   onChangeLinkInfo,
   mediaCredit,
   onChangeMediaCredit,
+  youtubeUrl,
+  onChangeYoutubeUrl,
 }: PostEditorProps) => {
   const loaderRef = useRef(null);
 
   const handleButtonDisabled = () => {
-    if (value !== "MEDIA") {
+    if (value === "ARTICLE" || value === "EXTERNAL_LINK") {
       return (
         isUploading ||
         isPending ||
@@ -56,7 +61,8 @@ const PostEditorFooter = ({
         !linkInfo.title.trim() ||
         !linkInfo.url.trim()
       );
-    } else {
+    }
+    if (value === "MEDIA") {
       return (
         isUploading ||
         isPending ||
@@ -64,6 +70,9 @@ const PostEditorFooter = ({
         !mediaCredit.trim() ||
         !previewFiles.length
       );
+    }
+    if (value === "YOUTUBE_VIDEO") {
+      return isUploading || isPending || !value || !youtubeUrl.trim();
     }
   };
 
@@ -101,10 +110,19 @@ const PostEditorFooter = ({
         <div className="flex items-center gap-3">
           {value !== null &&
             (value !== "MEDIA" ? (
-              <LinkDialog
-                linkInfo={linkInfo}
-                onChangeLinkInfo={onChangeLinkInfo}
-              />
+              value === "YOUTUBE_VIDEO" ? (
+                <Input
+                  placeholder="paste youtube video url"
+                  onChange={(e) => onChangeYoutubeUrl(e.target.value)}
+                  value={youtubeUrl}
+                  className="border-muted-foreground bg-muted focus-visible:ring-0"
+                />
+              ) : (
+                <LinkDialog
+                  linkInfo={linkInfo}
+                  onChangeLinkInfo={onChangeLinkInfo}
+                />
+              )
             ) : (
               <MediaInput
                 startUpload={startUpload}

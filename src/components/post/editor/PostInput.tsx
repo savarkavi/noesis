@@ -35,6 +35,7 @@ const PostInput = ({ value }: { value: PostType | null }) => {
     url: "",
   });
   const [mediaCredit, setMediaCredit] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
 
   const handleChangeLinkInfo = (title: string, url: string) => {
     setLinkInfo({ title, url });
@@ -42,6 +43,10 @@ const PostInput = ({ value }: { value: PostType | null }) => {
 
   const handleChangeMediaCredit = (src: string) => {
     setMediaCredit(src);
+  };
+
+  const handleChangeYoutubeUrl = (url: string) => {
+    setYoutubeUrl(url);
   };
 
   const mutation = useCreatePostMutation();
@@ -125,8 +130,16 @@ const PostInput = ({ value }: { value: PostType | null }) => {
           caption: input || null,
           attachments: attachments.map((a) => a.serverData.mediaId),
           type: value,
-          sourceTitle: value !== "MEDIA" ? linkInfo.title : null,
-          source: value !== "MEDIA" ? linkInfo.url : mediaCredit,
+          sourceTitle:
+            value === "ARTICLE" || value === "EXTERNAL_LINK"
+              ? linkInfo.title
+              : null,
+          source:
+            value !== "MEDIA"
+              ? value === "YOUTUBE_VIDEO"
+                ? youtubeUrl
+                : linkInfo.url
+              : mediaCredit,
         }),
         {
           loading: "Creating post...",
@@ -136,6 +149,7 @@ const PostInput = ({ value }: { value: PostType | null }) => {
             setAttachments([]);
             setLinkInfo({ title: "", url: "" });
             setMediaCredit("");
+            setYoutubeUrl("");
             return "Post created";
           },
           error: "Failed to create the post. Try again later.",
@@ -188,6 +202,8 @@ const PostInput = ({ value }: { value: PostType | null }) => {
         onChangeLinkInfo={handleChangeLinkInfo}
         mediaCredit={mediaCredit}
         onChangeMediaCredit={handleChangeMediaCredit}
+        youtubeUrl={youtubeUrl}
+        onChangeYoutubeUrl={handleChangeYoutubeUrl}
       />
     </div>
   );

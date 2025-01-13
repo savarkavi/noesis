@@ -15,6 +15,7 @@ import { useState } from "react";
 import Comments from "./Comments";
 import { ExternalLink } from "lucide-react";
 import LinkPreview from "./LinkPreview";
+import YoutubeVideoPreview from "./YoutubeVideoPreview";
 
 interface PostProps {
   post: PostData;
@@ -70,17 +71,19 @@ const Post = ({ post, userId }: PostProps) => {
         <Linkify>
           <p>{post.caption}</p>
         </Linkify>
-        <div className="mt-4 flex flex-col">
+        <div className="mt-4 flex w-full flex-col">
           {post.type !== "MEDIA" ? (
             <Link
               target="_blank"
               href={post.source}
-              className="w-fit text-blue-600"
+              className="w-full text-blue-600"
             >
-              {post.LinkMetadata ? (
+              {post.type === "YOUTUBE_VIDEO" ? (
+                <YoutubeVideoPreview post={post} />
+              ) : post.LinkMetadata ? (
                 <LinkPreview metadata={post.LinkMetadata} />
               ) : (
-                <span className="text-3xl">{post.sourceTitle}</span>
+                <span className="w-fit text-3xl">{post.sourceTitle}</span>
               )}
             </Link>
           ) : (
