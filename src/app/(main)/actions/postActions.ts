@@ -1,5 +1,6 @@
 "use server";
 
+import { fetchMetaData } from "@/lib/mutations/postMutations";
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
 import { postDataInclude } from "@/lib/types";
@@ -32,6 +33,20 @@ export const createPost = async (data: {
     },
     include: postDataInclude,
   });
+
+  if (newPost.type === "ARTICLE" || newPost.type === "EXTERNAL_LINK") {
+    const linkMetadata = await fetchMetaData(newPost.source);
+
+    if (linkMetadata.title && linkMetadata.description && linkMetadata.url) {
+      const createdLinkMetadata = await prisma.linkMetadata.create({
+        data: linkMetadata,
+      });
+      await prisma.post.update({
+        where: { id: newPost.id },
+        data: { linkMetadataId: createdLinkMetadata.id },
+      });
+    }
+  }
 
   return newPost;
 };
