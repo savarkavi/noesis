@@ -43,18 +43,20 @@ model Session {
 }
 
 model Post {
-  id            String         @id @default(uuid())
-  userId        String
-  caption       String?
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attachments   Media[]
-  sourceTitle   String?
-  source        String
-  likes         Like[]
-  bookmarks     Bookmark[]
-  comments      Comment[]
-  notifications Notification[]
-  type          PostType
+  id             String         @id @default(uuid())
+  userId         String
+  caption        String?
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments    Media[]
+  sourceTitle    String?
+  source         String
+  likes          Like[]
+  bookmarks      Bookmark[]
+  comments       Comment[]
+  linkMetadataId String?
+  LinkMetadata   LinkMetadata?  @relation(fields: [linkMetadataId], references: [id])
+  notifications  Notification[]
+  type           PostType
 
   createdAt DateTime @default(now())
 
@@ -66,6 +68,19 @@ enum PostType {
   ARTICLE
   EXTERNAL_LINK
   MEDIA
+}
+
+model LinkMetadata {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  image       String
+  url         String @unique
+  Post        Post[]
+
+  createdAt DateTime @default(now())
+
+  @@map("linksMetadata")
 }
 
 model Follow {
