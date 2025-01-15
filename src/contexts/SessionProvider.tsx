@@ -1,10 +1,11 @@
 "use client";
 
-import { Session, User } from "@/lib/session";
+import { Session } from "@/lib/session";
+import { UserData } from "@/lib/types";
 import { createContext, PropsWithChildren, useContext } from "react";
 
 interface SessionContext {
-  user: User;
+  user: UserData;
   session: Session;
 }
 

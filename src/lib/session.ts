@@ -6,6 +6,7 @@ import {
 import prisma from "./prisma";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { UserData, userSelect } from "./types";
 
 export interface Session {
   id: string;
@@ -26,7 +27,7 @@ export interface User {
 }
 
 export type SessionValidationResult =
-  | { session: Session; user: User }
+  | { session: Session; user: UserData }
   | { session: null; user: null };
 
 export async function setSessionTokenCookie(token: string, expiresAt: Date) {
@@ -79,7 +80,9 @@ export async function validateSessionToken(token: string) {
       id: sessionId,
     },
     include: {
-      user: true,
+      user: {
+        select: userSelect,
+      },
     },
   });
   if (result === null) {
