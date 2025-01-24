@@ -35,7 +35,12 @@ const DeleteCommentDialog = ({
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter className="w-full flex-row items-center justify-end gap-4">
-          <AlertDialogCancel className="my-0 w-fit">Cancel</AlertDialogCancel>
+          <AlertDialogCancel
+            className="my-0 w-fit"
+            disabled={mutation.isPending}
+          >
+            Cancel
+          </AlertDialogCancel>
           <Button
             variant="destructive"
             disabled={mutation.isPending}
