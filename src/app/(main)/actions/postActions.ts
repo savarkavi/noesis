@@ -56,7 +56,7 @@ export const createPost = async (data: {
     postData.youtubeVideoThumbnail = youtubeMetadata.thumbnail;
   }
 
-  const newPost = await prisma.post.create({
+  let newPost = await prisma.post.create({
     data: postData,
     include: postDataInclude,
   });
@@ -68,9 +68,10 @@ export const createPost = async (data: {
       const createdLinkMetadata = await prisma.linkMetadata.create({
         data: linkMetadata,
       });
-      await prisma.post.update({
+      newPost = await prisma.post.update({
         where: { id: newPost.id },
         data: { linkMetadataId: createdLinkMetadata.id },
+        include: postDataInclude,
       });
     }
   }

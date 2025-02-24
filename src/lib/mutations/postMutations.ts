@@ -7,7 +7,6 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useSession } from "@/contexts/SessionProvider";
-import { fetchLinkMetaData } from "../utils";
 import { PostPage } from "../types";
 
 export function useCreatePostMutation() {
@@ -59,37 +58,6 @@ export function useCreatePostMutation() {
           }
         },
       );
-
-      if (newPost.type === "ARTICLE" || newPost.type === "EXTERNAL_LINK") {
-        const metadata = await fetchLinkMetaData(newPost.source);
-
-        if (metadata.title && metadata.description && metadata.url) {
-          queryClient.setQueriesData<InfiniteData<PostPage, string | null>>(
-            {
-              queryKey: ["post"],
-              predicate(query) {
-                return (
-                  query.queryKey.includes("feed") ||
-                  (query.queryKey.includes("user-post") &&
-                    query.queryKey.includes(user.id))
-                );
-              },
-            },
-            (data) => {
-              const firstPage = data?.pages[0];
-              if (firstPage) {
-                const updatedData = { ...data };
-                updatedData.pages?.forEach((page) => {
-                  page.posts = page.posts.map((post) =>
-                    post.id === newPost.id ? { ...post, metadata } : post,
-                  );
-                });
-                return updatedData;
-              }
-            },
-          );
-        }
-      }
 
       queryClient.invalidateQueries({
         queryKey: queryFilter.queryKey,
