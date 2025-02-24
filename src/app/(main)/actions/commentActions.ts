@@ -24,7 +24,7 @@ export const createComment = async ({
     where: { id: postId },
   });
 
-  if (!post) return { error: "Post not found" };
+  if (!post) throw new Error("Post not found");
 
   const newComment = await prisma.comment.create({
     data: {
