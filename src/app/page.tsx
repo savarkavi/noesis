@@ -12,7 +12,6 @@ export default async function Home() {
     <div className="flex h-screen w-full items-center justify-center bg-black px-2 py-8">
       <BorderContainer>
         <LandingPageTitle />
-        <div></div>
       </BorderContainer>
     </div>
   );
