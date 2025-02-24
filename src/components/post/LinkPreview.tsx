@@ -1,24 +1,34 @@
+"use client";
+
 import { LinkMetadata } from "@prisma/client";
 import Image from "next/image";
+import { Skeleton } from "../ui/skeleton";
+import { useState } from "react";
 
 const LinkPreview = ({ metadata }: { metadata: LinkMetadata }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const proxyImageUrl = `/api/link-image-proxy?url=${encodeURIComponent(metadata.image)}`;
   const urlWithoutProtocol = new URL(metadata.url).hostname;
 
   return (
-    <div className="flex h-full w-full flex-col rounded-lg bg-slate-100">
-      <div className="relative h-[300px] w-full rounded-t-lg">
+    <div className="flex h-full w-full flex-col text-white">
+      <div className="relative h-[300px] w-full rounded-lg">
+        {isLoading && <Skeleton className="h-full w-full rounded-xl" />}
         <Image
           src={proxyImageUrl}
           alt="link image"
           fill
-          className="rounded-t-lg object-cover"
+          className="rounded-lg object-cover"
+          onLoadingComplete={() => setIsLoading(false)}
         />
       </div>
-      <div className="flex flex-col gap-2 p-4 text-base text-black">
+      <div className="flex flex-col gap-2 py-4 text-base">
         <p className="font-serif text-xl font-bold">{metadata.title}</p>
-        <p className="text-muted">{metadata.description}</p>
-        <p className="font-semibold text-muted">{urlWithoutProtocol}</p>
+        <p className="text-muted-foreground">{metadata.description}</p>
+        <p className="font-semibold text-muted-foreground">
+          {urlWithoutProtocol}
+        </p>
       </div>
     </div>
   );
