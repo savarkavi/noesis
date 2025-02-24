@@ -26,7 +26,7 @@ export default async function FeedPage() {
           <Feed userId={user.id} />
         </TabsContent>
         <TabsContent value="following">
-          <FollowingPosts />
+          <FollowingPosts userId={user.id} />
         </TabsContent>
       </Tabs>
     </div>

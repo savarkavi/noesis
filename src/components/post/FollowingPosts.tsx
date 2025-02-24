@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import Post from "./Post";
 
-const FollowingPosts = () => {
+const FollowingPosts = ({ userId }: { userId: string }) => {
   const {
     data,
     fetchNextPage,
@@ -64,7 +64,7 @@ const FollowingPosts = () => {
   return (
     <div>
       {posts.map((post: PostData) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} userId={userId} />
       ))}
       <div ref={ref}></div>
       {isFetchingNextPage && (
