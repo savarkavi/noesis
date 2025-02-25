@@ -81,3 +81,12 @@ body {
   color: blue;
   text-shadow: 0 0 50px blue;
 }
+
+.change-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.change-scrollbar::-webkit-scrollbar-thumb {
+  background-color: blue;
+  border: 2px solid blue;
+}
