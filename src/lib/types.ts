@@ -9,7 +9,7 @@ export const postDataInclude = {
     },
   },
   attachments: true,
-  LinkMetadata: true,
+  linkMetadata: true,
   likes: true,
   bookmarks: true,
   _count: {
@@ -32,11 +32,16 @@ export const userSelect = {
       posts: true,
     },
   },
+  bookmarkfolders: true,
 } satisfies Prisma.UserSelect;
 
 export const commentDataInclude = {
   user: {
-    select: userSelect,
+    select: {
+      username: true,
+      fullname: true,
+      avatarUrl: true,
+    },
   },
 };
 
@@ -115,4 +120,10 @@ export interface YoutubeMetadata {
   title: string;
   description: string;
   thumbnail: string;
+}
+
+export interface BookmarkFolder {
+  id: string;
+  name: string;
+  totalBookmarks: number;
 }
