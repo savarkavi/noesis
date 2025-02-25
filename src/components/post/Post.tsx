@@ -9,7 +9,7 @@ import Link from "next/link";
 import Linkify from "../Linkify";
 import PostMedia from "./PostMedia";
 import LikeButton from "../LikeButton";
-import BookmarkButton from "../BookmarkButton";
+import BookmarkButton from "../bookmark-feature/BookmarkButton";
 import CommentButton from "../CommentButton";
 import { useState } from "react";
 import Comments from "./Comments";
@@ -80,8 +80,8 @@ const Post = ({ post, userId }: PostProps) => {
             >
               {post.type === "YOUTUBE_VIDEO" ? (
                 <YoutubeVideoPreview post={post} />
-              ) : post.LinkMetadata ? (
-                <LinkPreview metadata={post.LinkMetadata} />
+              ) : post.linkMetadata ? (
+                <LinkPreview metadata={post.linkMetadata} />
               ) : (
                 <span className="w-fit text-3xl">{post.sourceTitle}</span>
               )}
