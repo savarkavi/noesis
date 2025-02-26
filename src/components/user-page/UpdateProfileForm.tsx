@@ -2,7 +2,6 @@
 
 import { updateUserProfileSchema, UserProfileValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -19,8 +18,9 @@ import { useUpdateUserMutation } from "@/lib/mutations/userMutations";
 import { Loader2 } from "lucide-react";
 import UserAvatarInput from "./UserAvatarInput";
 import { useState } from "react";
+import { UserData } from "@/lib/types";
 
-const UpdateProfileForm = ({ user }: { user: User }) => {
+const UpdateProfileForm = ({ user }: { user: UserData }) => {
   const [croppedImage, setCroppedImage] = useState<Blob | null>(null);
 
   const mutation = useUpdateUserMutation();
