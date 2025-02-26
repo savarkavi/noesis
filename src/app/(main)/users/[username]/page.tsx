@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 interface UserPageProps {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
 const getUser = cache(async (username: string) => {
