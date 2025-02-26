@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { CirclePlusIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { kyInstance } from "@/lib/ky";
+import Link from "next/link";
 
 const BookmarksFolders = () => {
   const { data: bookmarkFolderData } = useQuery({
@@ -31,13 +32,14 @@ const BookmarksFolders = () => {
       <div className="mt-8 flex flex-wrap gap-20">
         {bookmarkFolderData.map((folder) => {
           return (
-            <div
+            <Link
+              href={`/bookmarks/${folder.name}`}
               key={folder.id}
               className="flex cursor-pointer flex-col gap-2 rounded-lg p-2 hover:bg-muted"
             >
               <FaRegFolderOpen className="size-16 text-blue-600" />
               <p className="font-serif text-sm">{folder.name}</p>
-            </div>
+            </Link>
           );
         })}
       </div>
