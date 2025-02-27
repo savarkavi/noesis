@@ -15,6 +15,9 @@ export async function GET() {
       where: {
         userId: loggedInUser.id,
       },
+      include: {
+        bookmarks: true,
+      },
     });
 
     return Response.json(folders);
