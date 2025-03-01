@@ -25,6 +25,7 @@ const BookmarksFolderPosts = ({
     isPending,
     isError,
     status,
+    error,
   } = useInfiniteQuery({
     queryKey: ["post", "bookmarks", folderName],
     queryFn: ({ pageParam }) =>
@@ -38,6 +39,7 @@ const BookmarksFolderPosts = ({
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
+  console.log(data);
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   const { ref } = useInView({
@@ -62,6 +64,8 @@ const BookmarksFolderPosts = ({
   }
 
   if (isError) {
+    console.log(error);
+
     return (
       <p className="mt-8 text-center text-white">
         An error occured while loading bookmarks

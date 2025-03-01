@@ -1,7 +1,7 @@
 "use client";
 
 import { kyInstance } from "@/lib/ky";
-import { BookmarkFolder, PostBookmarkInfo } from "@/lib/types";
+import { BookmarkFolderData, PostBookmarkInfo } from "@/lib/types";
 import {
   QueryKey,
   useMutation,
@@ -35,9 +35,10 @@ const BookmarkButton = ({
     staleTime: Infinity,
   });
 
-  const { data: bookmarkFolderData } = useQuery({
+  const { data: bookmarkFolders } = useQuery({
     queryKey: ["bookmark-folders"],
-    queryFn: () => kyInstance.get("bookmark-folders").json<BookmarkFolder[]>(),
+    queryFn: () =>
+      kyInstance.get("bookmark-folders").json<BookmarkFolderData[]>(),
   });
 
   const queryClient = useQueryClient();
@@ -59,6 +60,7 @@ const BookmarkButton = ({
         queryClient.getQueryData<PostBookmarkInfo>(queryKey);
 
       queryClient.setQueryData<PostBookmarkInfo>(queryKey, () => ({
+        id: previousState ? previousState.id : null,
         isBookmarked: !previousState?.isBookmarked,
       }));
 
@@ -103,7 +105,7 @@ const BookmarkButton = ({
             onClick={() => mutate()}
           />
         </div>
-        {bookmarkFolderData && bookmarkFolderData.length > 0 && (
+        {bookmarkFolders && bookmarkFolders.length > 0 && (
           <div>
             <Separator />
             <div className="px-4 py-2">
@@ -111,7 +113,10 @@ const BookmarkButton = ({
                 Add post to a folder
               </p>
             </div>
-            <BookmarkFolders data={bookmarkFolderData} />
+            <BookmarkFolders
+              data={bookmarkFolders}
+              bookmarkId={bookmarkData?.id}
+            />
             <Separator />
           </div>
         )}
