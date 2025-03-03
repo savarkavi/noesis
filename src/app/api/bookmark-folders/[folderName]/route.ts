@@ -30,40 +30,30 @@ export async function GET(
       return Response.json({ error: "Folder not found" }, { status: 404 });
     }
 
-    const bookmarkConnections = await prisma.bookmarkToBookmarkfolder.findMany({
+    const bookmarks = await prisma.bookmark.findMany({
       where: {
-        bookmarkfolderId: folder.id,
-      },
-      include: {
-        bookmark: {
-          include: {
-            post: {
-              include: postDataInclude,
-            },
+        userId: loggedInUser.id,
+        folders: {
+          some: {
+            bookmarkfolderId: folder.id,
           },
         },
       },
-      orderBy: { bookmark: { createdAt: "desc" } },
+      include: {
+        post: {
+          include: postDataInclude,
+        },
+      },
+      orderBy: { createdAt: "desc" },
       take: pageSize + 1,
-      cursor: cursor
-        ? {
-            bookmarkId_bookmarkfolderId: {
-              bookmarkId: cursor,
-              bookmarkfolderId: folder.id,
-            },
-          }
-        : undefined,
+      cursor: cursor ? { id: cursor } : undefined,
     });
 
     const nextCursor =
-      bookmarkConnections.length > pageSize
-        ? bookmarkConnections[pageSize].bookmarkId
-        : null;
+      bookmarks.length > pageSize ? bookmarks[pageSize].id : null;
 
     const data: PostPage = {
-      posts: bookmarkConnections
-        .slice(0, pageSize)
-        .map((connection) => connection.bookmark.post),
+      posts: bookmarks.slice(0, pageSize).map((bookmark) => bookmark.post),
       nextCursor,
     };
 
