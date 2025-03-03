@@ -1,6 +1,6 @@
+import BookmarkFolderMenu from "@/components/bookmark-feature/BookmarkFolderMenu";
 import BookmarksFolderPosts from "@/components/post/BookmarksFolderPosts";
 import { getCurrentSession } from "@/lib/session";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import React from "react";
 
 const BookmarksFolderPage = async ({
@@ -16,9 +16,9 @@ const BookmarksFolderPage = async ({
 
   return (
     <div>
-      <div className="flex items-center justify-between p-4">
-        <p>{bookmarkFolder}</p>
-        <DotsHorizontalIcon className="size-6" />
+      <div className="flex items-center justify-between px-6 py-4">
+        <p className="text-lg text-blue-500">{bookmarkFolder}</p>
+        <BookmarkFolderMenu folderName={bookmarkFolder} />
       </div>
       <BookmarksFolderPosts folderName={bookmarkFolder} userId={user?.id} />
     </div>
