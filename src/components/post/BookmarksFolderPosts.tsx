@@ -30,16 +30,15 @@ const BookmarksFolderPosts = ({
     queryKey: ["post", "bookmarks", folderName],
     queryFn: ({ pageParam }) =>
       kyInstance
-        .get(
-          `bookmark-folders/${folderName}`,
-          pageParam ? { searchParams: { cursor: pageParam } } : {},
-        )
+        .get(`bookmark-folders/${folderName}`, {
+          ...(pageParam ? { searchParams: { cursor: pageParam } } : {}),
+          timeout: 60000,
+        })
         .json<PostPage>(),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  console.log(data);
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   const { ref } = useInView({
@@ -52,7 +51,7 @@ const BookmarksFolderPosts = ({
   });
 
   if (isPending) {
-    return <Loader2 className="mx-auto mt-8 animate-spin text-blue-500" />;
+    return <Loader2 className="mx-auto mt-16 animate-spin text-blue-500" />;
   }
 
   if (status === "success" && !posts.length) {
@@ -67,14 +66,14 @@ const BookmarksFolderPosts = ({
     console.log(error);
 
     return (
-      <p className="mt-8 text-center text-white">
+      <p className="mt-16 text-center text-white">
         An error occured while loading bookmarks
       </p>
     );
   }
 
   return (
-    <div>
+    <div className="mt-6">
       {posts.map((post: PostData) => (
         <Post key={post.id} post={post} userId={userId} />
       ))}
