@@ -49,9 +49,11 @@ const CreateBookmarkFolderButton = ({ children }: { children: ReactNode }) => {
       setIsOpen(false);
     },
 
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to create a folder.");
+    onError: async (error: Error & { response?: Response }) => {
+      setNameInput("");
+      setIsOpen(false);
+      const errorData = await error.response?.json();
+      toast.error(errorData?.error || "Failed to create folder");
     },
   });
 
