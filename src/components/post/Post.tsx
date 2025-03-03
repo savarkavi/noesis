@@ -34,7 +34,7 @@ const Post = ({ post, userId }: PostProps) => {
   const handleCommentsClose = () => setIsCommentsClicked(false);
 
   return (
-    <div className="flex flex-col gap-6 border-b border-gray-700 p-6">
+    <div className="flex flex-col gap-3 border-b border-gray-700 p-6">
       <div className="flex gap-2">
         <div className="relative h-14 w-14 shrink-0 rounded-full">
           <Image
@@ -112,7 +112,10 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         <BookmarkButton
           postId={post.id}
-          initialState={{ isBookmarked: !!isBookmarked }}
+          initialState={{
+            id: isBookmarked ? isBookmarked.id : null,
+            isBookmarked: !!isBookmarked,
+          }}
         />
         <div className="flex w-full justify-end lg:hidden">
           <button className="w-fit items-center gap-2 self-end rounded-full border border-muted-foreground bg-muted px-4 py-1 text-[0.8rem] lg:hidden">
