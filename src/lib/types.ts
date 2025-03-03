@@ -43,7 +43,7 @@ export const commentDataInclude = {
       avatarUrl: true,
     },
   },
-};
+} satisfies Prisma.CommentInclude;
 
 export const notificationDataInclude = {
   issuer: {
@@ -65,6 +65,14 @@ export const notificationDataInclude = {
   },
 } satisfies Prisma.NotificationInclude;
 
+export const bookmarkFolderDataInclude = {
+  bookmarks: {
+    select: {
+      bookmarkId: true,
+    },
+  },
+} satisfies Prisma.BookmarkfolderInclude;
+
 export type PostData = Prisma.PostGetPayload<{
   include: typeof postDataInclude;
 }>;
@@ -77,6 +85,10 @@ export type CommentData = Prisma.CommentGetPayload<{
 
 export type NotificationData = Prisma.NotificationGetPayload<{
   include: typeof notificationDataInclude;
+}>;
+
+export type BookmarkFolderData = Prisma.BookmarkfolderGetPayload<{
+  include: typeof bookmarkFolderDataInclude;
 }>;
 
 export interface PostPage {
@@ -105,6 +117,7 @@ export interface PostLikesInfo {
 }
 
 export interface PostBookmarkInfo {
+  id: string | null;
   isBookmarked: boolean;
 }
 
