@@ -25,6 +25,7 @@ export async function GET(
     });
 
     const data: PostBookmarkInfo = {
+      id: bookmark ? bookmark.id : null,
       isBookmarked: !!bookmark,
     };
 
