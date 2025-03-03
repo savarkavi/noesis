@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
-import { BookmarkFolder } from "@/lib/types";
+import { BookmarkFolder, bookmarkFolderDataInclude } from "@/lib/types";
 import { NextRequest } from "next/server";
 
 export async function GET() {
@@ -15,9 +15,7 @@ export async function GET() {
       where: {
         userId: loggedInUser.id,
       },
-      include: {
-        bookmarks: true,
-      },
+      include: bookmarkFolderDataInclude,
     });
 
     return Response.json(folders);
@@ -35,6 +33,23 @@ export async function POST(req: NextRequest) {
 
     if (!loggedInUser) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const existingFolder = await prisma.bookmarkfolder.findFirst({
+      where: {
+        name,
+        userId: loggedInUser.id,
+      },
+    });
+
+    if (existingFolder) {
+      return Response.json(
+        {
+          error:
+            "A folder with the same name already exists. Choose a different name.",
+        },
+        { status: 409 },
+      );
     }
 
     const newFolder = await prisma.bookmarkfolder.create({
