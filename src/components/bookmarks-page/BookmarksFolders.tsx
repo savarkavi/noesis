@@ -5,7 +5,7 @@ import { FaRegFolderOpen } from "react-icons/fa6";
 import React from "react";
 import CreateBookmarkFolderButton from "../bookmark-feature/CreateBookmarkFolderButton";
 import { Button } from "../ui/button";
-import { CirclePlusIcon } from "lucide-react";
+import { CirclePlusIcon, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { kyInstance } from "@/lib/ky";
 import Link from "next/link";
@@ -17,7 +17,7 @@ const BookmarksFolders = () => {
   });
 
   if (!bookmarkFolderData) {
-    return <p>Loading...</p>;
+    return <Loader2 className="mx-auto mt-8 animate-spin text-blue-500" />;
   }
 
   return (
