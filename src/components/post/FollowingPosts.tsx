@@ -64,7 +64,12 @@ const FollowingPosts = ({ userId }: { userId: string }) => {
   return (
     <div>
       {posts.map((post: PostData) => (
-        <Post key={post.id} post={post} userId={userId} />
+        <Post
+          key={post.id}
+          post={post}
+          userId={userId}
+          isSinglePost={posts.length === 1}
+        />
       ))}
       <div ref={ref}></div>
       {isFetchingNextPage && (

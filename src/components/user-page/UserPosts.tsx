@@ -73,7 +73,12 @@ const UserPosts = ({
   return (
     <div className="mt-8">
       {posts.map((post: PostData) => (
-        <Post key={post.id} post={post} userId={loggedInUser} />
+        <Post
+          key={post.id}
+          post={post}
+          userId={loggedInUser}
+          isSinglePost={posts.length === 1}
+        />
       ))}
       <div ref={ref}></div>
       {isFetchingNextPage && (

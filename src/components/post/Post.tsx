@@ -3,7 +3,7 @@
 import { PostData } from "@/lib/types";
 import profilePlaceholder from "../../assets/profile-placeholder.png";
 import Image from "next/image";
-import { formatRelativeDate } from "@/lib/utils";
+import { cn, formatRelativeDate } from "@/lib/utils";
 import PostOptionsButton from "./PostOptionsButton";
 import Link from "next/link";
 import Linkify from "../Linkify";
@@ -20,9 +20,10 @@ import YoutubeVideoPreview from "./YoutubeVideoPreview";
 interface PostProps {
   post: PostData;
   userId: string;
+  isSinglePost?: boolean;
 }
 
-const Post = ({ post, userId }: PostProps) => {
+const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
   const [isCommentsClicked, setIsCommentsClicked] = useState(false);
 
   const isLiked = post.likes.find((like) => like.userId === userId);
@@ -34,7 +35,12 @@ const Post = ({ post, userId }: PostProps) => {
   const handleCommentsClose = () => setIsCommentsClicked(false);
 
   return (
-    <div className="flex flex-col gap-3 border-b border-gray-700 p-6">
+    <div
+      className={cn(
+        "flex flex-col gap-2 border-gray-700 p-6",
+        !isSinglePost ? "border-b" : "",
+      )}
+    >
       <div className="flex gap-2">
         <div className="relative h-14 w-14 shrink-0 rounded-full">
           <Image
@@ -99,7 +105,7 @@ const Post = ({ post, userId }: PostProps) => {
         </div>
         {post.attachments.length > 0 && <PostMedia post={post} />}
       </div>
-      <div className="mt-2 flex items-center gap-6 md:justify-between">
+      <div className="flex items-center gap-6 md:mt-2 md:justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <LikeButton
             postId={post.id}
