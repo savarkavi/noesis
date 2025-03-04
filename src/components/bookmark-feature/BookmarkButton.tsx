@@ -42,7 +42,8 @@ const BookmarkButton = ({
   });
 
   const queryClient = useQueryClient();
-  const queryKey: QueryKey = ["bookmark-info", postId];
+  const bookmarkQueryKey: QueryKey = ["bookmark-info", postId];
+  const foldersQueryKey: QueryKey = ["bookmark-folders"];
 
   const { mutate } = useMutation({
     mutationFn: () =>
@@ -55,20 +56,44 @@ const BookmarkButton = ({
         `Post ${bookmarkData?.isBookmarked ? "removed from" : "saved to"} bookmarks`,
       );
 
-      await queryClient.cancelQueries({ queryKey });
-      const previousState =
-        queryClient.getQueryData<PostBookmarkInfo>(queryKey);
+      await queryClient.cancelQueries({ queryKey: bookmarkQueryKey });
+      await queryClient.cancelQueries({ queryKey: foldersQueryKey });
 
-      queryClient.setQueryData<PostBookmarkInfo>(queryKey, () => ({
-        id: previousState ? previousState.id : null,
-        isBookmarked: !previousState?.isBookmarked,
+      const previousBookmarkState =
+        queryClient.getQueryData<PostBookmarkInfo>(bookmarkQueryKey);
+      const previousFoldersState =
+        queryClient.getQueryData<BookmarkFolderData[]>(foldersQueryKey);
+
+      queryClient.setQueryData<PostBookmarkInfo>(bookmarkQueryKey, () => ({
+        id: previousBookmarkState ? previousBookmarkState.id : null,
+        isBookmarked: !previousBookmarkState?.isBookmarked,
       }));
 
-      return { previousState };
+      if (bookmarkData?.isBookmarked && bookmarkData.id) {
+        queryClient.setQueryData<BookmarkFolderData[]>(
+          foldersQueryKey,
+          (oldData) => {
+            if (!oldData) return oldData;
+
+            return oldData.map((folder) => ({
+              ...folder,
+              bookmarks: folder.bookmarks.filter(
+                (bookmark) => bookmark.bookmarkId !== bookmarkData.id,
+              ),
+            }));
+          },
+        );
+      }
+
+      return { previousBookmarkState, previousFoldersState };
     },
 
     onError: (error, _, context) => {
-      queryClient.setQueryData(queryKey, context?.previousState);
+      queryClient.setQueryData(
+        bookmarkQueryKey,
+        context?.previousBookmarkState,
+      );
+      queryClient.setQueryData(foldersQueryKey, context?.previousFoldersState);
       console.log(error);
       toast.error("Failed to bookmark the post.");
     },
