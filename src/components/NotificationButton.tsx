@@ -5,8 +5,11 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { BellIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NotificationButton = ({ isMenuSheet }: { isMenuSheet?: boolean }) => {
+  const pathname = usePathname();
+
   const { data } = useQuery({
     queryKey: ["unread-notifications"],
     queryFn: () =>
@@ -19,7 +22,10 @@ const NotificationButton = ({ isMenuSheet }: { isMenuSheet?: boolean }) => {
   return (
     <Link
       href={"/notifications"}
-      className="flex items-center gap-6 text-white"
+      className={cn(
+        "flex items-center gap-4 rounded-full px-4 py-2 text-white hover:bg-muted",
+        pathname.includes("/notifications") && "bg-muted",
+      )}
     >
       <div className="relative">
         <BellIcon size={28} className="text-blue-600" />
