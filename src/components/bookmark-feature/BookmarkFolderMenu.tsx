@@ -66,7 +66,7 @@ const BookmarkFolderMenu = ({ folderName }: BookmarksFolderPostsProps) => {
 
       toast.success("Folder renamed");
 
-      router.push(`/bookmarks/${nameInput}`);
+      router.replace(`/bookmarks/${nameInput}`);
     } catch (error) {
       console.log(error);
       toast.error("Failed to rename the folder");
