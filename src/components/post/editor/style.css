@@ -14,3 +14,24 @@
   color: #1d1dd5;
   cursor: pointer;
 }
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd53;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  font-size: large;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 800px) {
+  .tiptap p.is-editor-empty:first-child::before {
+    font-size: medium;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .tiptap p.is-editor-empty:first-child::before {
+    font-size: small;
+  }
+}
