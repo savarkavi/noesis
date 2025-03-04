@@ -29,7 +29,7 @@ const BookmarksFolders = () => {
           </Button>
         </CreateBookmarkFolderButton>
       </div>
-      <div className="mt-8 flex flex-wrap gap-20">
+      <div className="mt-8 flex flex-wrap gap-10 md:gap-20">
         {bookmarkFolderData.map((folder) => {
           return (
             <Link
