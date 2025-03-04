@@ -14,7 +14,7 @@ export default async function BookmarksPage() {
   if (!user) return;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-[55px] md:p-0">
       <Tabs defaultValue="all-bookmarks">
         <TabsList className="h-fit w-full rounded-none">
           <TabsTrigger value="all-bookmarks" className="w-1/2 p-3">
