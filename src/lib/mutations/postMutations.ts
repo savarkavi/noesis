@@ -69,7 +69,6 @@ export function useCreatePostMutation() {
 
     onError: (error) => {
       console.log(error);
-      toast.error("Failed to create the post. Try again later.");
     },
   });
 
