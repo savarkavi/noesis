@@ -2,11 +2,10 @@
 
 import prisma from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
-import { userSelect } from "@/lib/types";
+import { UserData, userSelect } from "@/lib/types";
 import { updateUserProfileSchema, UserProfileValues } from "@/lib/validation";
-import { User } from "@prisma/client";
 
-export const getWhoToFollowUsers = async (currentUser: User) => {
+export const getWhoToFollowUsers = async (currentUser: UserData) => {
   try {
     const users = await prisma.user.findMany({
       where: {
