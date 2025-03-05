@@ -73,7 +73,7 @@ const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mt-6">
         <Linkify>
           <p>{post.caption}</p>
         </Linkify>
