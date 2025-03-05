@@ -15,11 +15,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState, useTransition } from "react";
 import { login } from "@/app/(auth)/actions";
-import { Loader2 } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, setTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -68,12 +69,25 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel className="text-blue-600">Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="password"
-                  {...field}
-                  className="text-gray-400"
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="password"
+                    {...field}
+                    className="text-gray-400"
+                  />
+                  {!showPassword ? (
+                    <EyeIcon
+                      className="absolute right-3 top-1/2 size-4 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(true)}
+                    />
+                  ) : (
+                    <EyeOffIcon
+                      className="absolute right-3 top-1/2 size-4 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(false)}
+                    />
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -15,11 +15,12 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { signUp } from "@/app/(auth)/actions";
 import { useState, useTransition } from "react";
-import { Loader2 } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 
 const SignUpForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, setTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
@@ -86,18 +87,31 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel className="text-blue-600">Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="password"
-                  {...field}
-                  className="text-gray-400"
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="password"
+                    {...field}
+                    className="text-gray-400"
+                  />
+                  {!showPassword ? (
+                    <EyeIcon
+                      className="absolute right-3 top-1/2 size-4 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(true)}
+                    />
+                  ) : (
+                    <EyeOffIcon
+                      className="absolute right-3 top-1/2 size-4 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setShowPassword(false)}
+                    />
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="text-white">
           {isPending ? <Loader2 className="size-5 animate-spin" /> : "Submit"}
         </Button>
       </form>
