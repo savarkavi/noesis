@@ -45,17 +45,13 @@ const BookmarkButton = ({
   const bookmarkQueryKey: QueryKey = ["bookmark-info", postId];
   const foldersQueryKey: QueryKey = ["bookmark-folders"];
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: () =>
       bookmarkData?.isBookmarked
         ? kyInstance.delete(`posts/${postId}/bookmarks`)
         : kyInstance.post(`posts/${postId}/bookmarks`),
 
     onMutate: async () => {
-      toast.success(
-        `Post ${bookmarkData?.isBookmarked ? "removed from" : "saved to"} bookmarks`,
-      );
-
       await queryClient.cancelQueries({ queryKey: bookmarkQueryKey });
       await queryClient.cancelQueries({ queryKey: foldersQueryKey });
 
@@ -95,9 +91,17 @@ const BookmarkButton = ({
       );
       queryClient.setQueryData(foldersQueryKey, context?.previousFoldersState);
       console.log(error);
-      toast.error("Failed to bookmark the post.");
     },
   });
+
+  const handleBookmarkClick = () => {
+    toast.promise(mutateAsync(), {
+      loading: ` ${bookmarkData?.isBookmarked ? "Removing" : "Saving"} bookmark`,
+      success: () =>
+        `Post ${bookmarkData?.isBookmarked ? "removed from" : "saved to"} bookmarks`,
+      error: "Something went wrong. Try again later.",
+    });
+  };
 
   return (
     <Popover>
@@ -105,7 +109,7 @@ const BookmarkButton = ({
         <button
           onClick={() => {
             if (!bookmarkData?.isBookmarked) {
-              mutate();
+              handleBookmarkClick();
             }
           }}
         >
@@ -127,7 +131,7 @@ const BookmarkButton = ({
               "cursor-pointer",
               bookmarkData?.isBookmarked && "fill-blue-600",
             )}
-            onClick={() => mutate()}
+            onClick={handleBookmarkClick}
           />
         </div>
         {bookmarkFolders && bookmarkFolders.length > 0 && (
