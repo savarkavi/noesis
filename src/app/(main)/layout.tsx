@@ -18,10 +18,10 @@ export default async function MainLayout({
   return (
     <SessionProvider value={session}>
       <div className="min-h-screen w-full bg-[#161e27]">
+        <TopBar />
         <div className="mx-auto flex h-full w-full max-w-[1340px] justify-center xl:justify-between">
           <MenuBar />
           <div className="flex min-h-screen w-full min-w-[350px] max-w-[640px] flex-col border-gray-700 sm:border-x">
-            <TopBar />
             {children}
             <BottomMenu />
           </div>
