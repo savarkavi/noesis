@@ -26,7 +26,7 @@ const MenuBar = () => {
               }
               key={item.name}
               className={cn(
-                "flex items-center gap-4 rounded-full px-3 py-2 text-white hover:bg-muted",
+                "flex items-center gap-4 rounded-full px-4 py-2 text-white hover:bg-muted",
                 pathname.includes(item.path) && "bg-muted",
               )}
             >
