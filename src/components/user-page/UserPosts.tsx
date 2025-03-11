@@ -57,7 +57,7 @@ const UserPosts = ({
       <p className="mt-16 text-center text-gray-300">
         {userId === loggedInUser
           ? "You haven't posted anything yet."
-          : " This user hasn&apos;t posted anything yet."}
+          : " This user hasn't posted anything yet."}
       </p>
     );
   }
