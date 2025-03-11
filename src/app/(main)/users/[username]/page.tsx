@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: UserPageProps) {
   const user = await getUser(username);
 
   return {
-    title: `${(await user).username}`,
+    title: `${user.username}`,
   };
 }
 
