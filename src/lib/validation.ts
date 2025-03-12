@@ -38,10 +38,6 @@ export const updateUserProfileSchema = z.object({
   fullname: z
     .string()
     .max(20, "Fullname can only have a maximum of 20 characters.")
-    .regex(
-      /^[a-zA-Z''-]+( [a-zA-Z''-]+)*$/,
-      "Only letters, hyphens and apostrophes are allowed",
-    )
     .optional(),
   username: requiredString
     .max(20, "Username can only have a maximum of 20 characters.")
