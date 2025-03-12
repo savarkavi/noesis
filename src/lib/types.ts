@@ -106,6 +106,17 @@ export interface NotificationPage {
   nextCursor: string | null;
 }
 
+export interface SearchPage {
+  users: UserData[];
+  posts: PostData[];
+  nextCursor: string | null;
+}
+
+export interface UserPage {
+  users: UserData[];
+  nextCursor: string | null;
+}
+
 export interface UserFollowersInfo {
   totalFollowers: number;
   isFollowed: boolean;
