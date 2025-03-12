@@ -16,6 +16,7 @@ import Comments from "./Comments";
 import { ExternalLink } from "lucide-react";
 import LinkPreview from "./LinkPreview";
 import YoutubeVideoPreview from "./YoutubeVideoPreview";
+import { Skeleton } from "../ui/skeleton";
 
 interface PostProps {
   post: PostData;
@@ -25,6 +26,7 @@ interface PostProps {
 
 const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
   const [isCommentsClicked, setIsCommentsClicked] = useState(false);
+  const [isProfilePictureLoading, setIsProfilePictureLoading] = useState(true);
 
   const isLiked = post.likes.find((like) => like.userId === userId);
   const isBookmarked = post.bookmarks.find(
@@ -42,12 +44,16 @@ const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
       )}
     >
       <div className="flex gap-2">
+        {isProfilePictureLoading && (
+          <Skeleton className="h-14 w-14 shrink-0 rounded-full" />
+        )}
         <div className="relative h-14 w-14 shrink-0 rounded-full">
           <Image
             src={post.user.avatarUrl || profilePlaceholder}
             alt="profile picture"
             fill
             className="rounded-full object-cover"
+            onLoadingComplete={() => setIsProfilePictureLoading(false)}
           />
         </div>
         <div className="flex w-full justify-between">
