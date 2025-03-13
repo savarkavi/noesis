@@ -1,9 +1,10 @@
 import MenuSheet from "./MenuSheet";
 import SearchInput from "./SearchInput";
+import UserProfileButton from "./UserProfileButton";
 
 const TopBar = () => {
   return (
-    <div className="sticky top-0 z-[10] flex items-center justify-between border-b border-gray-700 bg-[#161e27] p-4">
+    <div className="sticky top-0 z-[10] flex items-center justify-between border-b border-gray-700 bg-[#161e27] px-8 py-4">
       <div className="sm:hidden">
         <MenuSheet />
       </div>
@@ -12,7 +13,7 @@ const TopBar = () => {
         <h1 className="font-serif text-3xl text-blue-600">Noesis</h1>
       </div>
       <SearchInput />
-      <div></div>
+      <UserProfileButton />
     </div>
   );
 };
