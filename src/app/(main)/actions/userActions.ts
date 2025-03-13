@@ -6,16 +6,33 @@ import { UserData, userSelect } from "@/lib/types";
 import { updateUserProfileSchema, UserProfileValues } from "@/lib/validation";
 
 export const getWhoToFollowUsers = async (currentUser: UserData) => {
+  console.log(currentUser.id);
+
   try {
     const users = await prisma.user.findMany({
       where: {
-        NOT: {
-          id: currentUser.id,
-        },
+        AND: [
+          {
+            NOT: {
+              id: currentUser.id,
+            },
+          },
+          {
+            NOT: {
+              followers: {
+                some: {
+                  followerId: currentUser.id,
+                },
+              },
+            },
+          },
+        ],
       },
       select: userSelect,
-      take: 5,
+      take: 3,
     });
+
+    console.log(users);
 
     return { users };
   } catch (error) {
