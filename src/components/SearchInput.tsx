@@ -18,8 +18,8 @@ const SearchInput = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="absolute left-1/2 top-1/2 w-full max-w-[600px] -translate-x-1/2 -translate-y-1/2">
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="relative w-full max-w-[600px] lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2">
         <Input
           className="rounded-full bg-muted py-5 pl-10 pr-4"
           placeholder="search noesis"
