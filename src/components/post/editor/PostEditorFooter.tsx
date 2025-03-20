@@ -61,8 +61,7 @@ const PostEditorFooter = ({
         !linkInfo.title.trim() ||
         !linkInfo.url.trim()
       );
-    }
-    if (value === "MEDIA") {
+    } else if (value === "MEDIA") {
       return (
         isUploading ||
         isPending ||
@@ -70,9 +69,10 @@ const PostEditorFooter = ({
         !mediaCredit.trim() ||
         !previewFiles.length
       );
-    }
-    if (value === "YOUTUBE_VIDEO") {
+    } else if (value === "YOUTUBE_VIDEO") {
       return isUploading || isPending || !value || !youtubeUrl.trim();
+    } else {
+      return !value;
     }
   };
 
