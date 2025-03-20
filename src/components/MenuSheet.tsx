@@ -38,7 +38,7 @@ const MenuSheet = () => {
               <SheetClose asChild key={item.name}>
                 <Link
                   href={item.path}
-                  className="flex items-center gap-6 text-white"
+                  className="flex items-center gap-6 px-4 py-2 text-white"
                 >
                   <Icon size={28} className="text-blue-600" />
                   <span className="text-xl">{item.name}</span>
