@@ -4,8 +4,8 @@ import {
   HomeIcon,
   MessageCircle,
   SearchIcon,
-  Settings,
   User2,
+  TrendingUp,
 } from "lucide-react";
 
 export const menuItems = [
@@ -16,8 +16,8 @@ export const menuItems = [
   },
   {
     name: "Explore",
-    path: "/search",
-    icon: SearchIcon,
+    path: "/explore",
+    icon: TrendingUp,
   },
   {
     name: "Notifications",
@@ -39,11 +39,11 @@ export const menuItems = [
     path: "/users",
     icon: User2,
   },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: Settings,
-  },
+  // {
+  //   name: "Settings",
+  //   path: "/settings",
+  //   icon: Settings,
+  // },
 ];
 
 export const bottomMenuItems = [
