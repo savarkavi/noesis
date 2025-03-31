@@ -50,7 +50,8 @@ model Post {
   user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments             Media[]
   sourceTitle             String?
-  source                  String
+  sourceUrl               String
+  sourceDomain            String
   likes                   Like[]
   bookmarks               Bookmark[]
   comments                Comment[]
