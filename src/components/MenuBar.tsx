@@ -12,8 +12,8 @@ const MenuBar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="sticky top-12 hidden h-fit justify-center px-8 sm:flex md:w-full md:max-w-[280px]">
-      <div className="mt-24 flex flex-col gap-10">
+    <div className="sticky top-[80px] hidden h-fit justify-center px-8 sm:flex md:w-full md:max-w-[280px]">
+      <div className="mt-20 flex flex-col gap-10">
         {menuItems.map((item) => {
           const Icon = item.icon;
 
