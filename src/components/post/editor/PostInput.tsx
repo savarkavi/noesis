@@ -134,7 +134,7 @@ const PostInput = ({ value }: { value: PostType | null }) => {
             value === "ARTICLE" || value === "EXTERNAL_LINK"
               ? linkInfo.title
               : null,
-          source:
+          sourceUrl:
             value !== "MEDIA"
               ? value === "YOUTUBE_VIDEO"
                 ? youtubeUrl

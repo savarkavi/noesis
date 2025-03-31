@@ -28,7 +28,7 @@ export const postSchema = z.object({
     .array(z.string())
     .max(4, "You cannot upload more than 4 files."),
   sourceTitle: z.string().trim().nullable(),
-  source: z
+  sourceUrl: z
     .string()
     .trim()
     .refine((url) => isValidUrl(url), "Please enter a valid URL"),

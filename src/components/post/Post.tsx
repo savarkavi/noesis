@@ -87,7 +87,7 @@ const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
           {post.type !== "MEDIA" ? (
             <Link
               target="_blank"
-              href={post.source}
+              href={post.sourceUrl}
               className="w-full text-blue-600"
             >
               {post.type === "YOUTUBE_VIDEO" ? (
@@ -101,7 +101,7 @@ const Post = ({ post, userId, isSinglePost = false }: PostProps) => {
           ) : (
             <Link
               target="_blank"
-              href={post.source}
+              href={post.sourceUrl}
               className="flex w-fit items-center gap-1 self-end text-muted-foreground"
             >
               <span>source</span>
