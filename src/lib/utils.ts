@@ -89,3 +89,12 @@ export const fetchYoutubeMetaData = async (url: string) => {
     .json<YoutubeMetadata>();
   return res;
 };
+
+export const getDomain = async (url: string) => {
+  try {
+    return new URL(url).hostname;
+  } catch (error) {
+    console.error("Invalid URL", error);
+    return null;
+  }
+};
