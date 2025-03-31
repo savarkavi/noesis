@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const TopBar = () => {
   return (
-    <div className="sticky top-0 z-[10] flex items-center justify-between gap-4 border-b border-gray-700 bg-[#161e27] px-2 py-4 sm:px-8">
+    <div className="sticky top-0 z-[10] flex h-[80px] items-center justify-between gap-4 border-b border-gray-700 bg-[#161e27] px-2 py-4 sm:px-8">
       <div className="sm:hidden">
         <MenuSheet />
       </div>
