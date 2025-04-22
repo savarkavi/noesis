@@ -6,6 +6,7 @@ import { UserFollowersInfo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const FollowButton = ({
   userId,
@@ -48,15 +49,15 @@ const FollowButton = ({
   });
 
   return (
-    <button
+    <Button
       className={cn(
         "w-24 cursor-pointer rounded-2xl px-4 py-2 text-sm",
-        data?.isFollowed ? "bg-white text-black" : "bg-blue-500 text-white",
+        data?.isFollowed ? "bg-white text-black" : "bg-blue-600 text-white",
       )}
       onClick={() => mutate()}
     >
       {data?.isFollowed ? "Following" : "Follow"}
-    </button>
+    </Button>
   );
 };
 
