@@ -17,13 +17,16 @@ const PostImageDialog = ({ src }: { src: string }) => {
   return (
     <Dialog>
       <DialogTrigger className="w-full" onClick={handleClick}>
-        <div className="relative h-[500px] w-full">
-          {isLoading && <Skeleton className="h-full w-full rounded-xl" />}
+        <div className="relative aspect-auto w-full">
+          {isLoading && <Skeleton className="h-auto w-full rounded-xl" />}
           <Image
             src={src}
             alt="image preview"
-            fill
-            className="rounded-xl object-cover"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
+            className="rounded-xl object-contain"
             onLoadingComplete={() => setIsLoading(false)}
           />
         </div>
